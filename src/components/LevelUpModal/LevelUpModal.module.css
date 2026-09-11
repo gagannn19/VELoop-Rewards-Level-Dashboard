@@ -1,0 +1,105 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 11, 20, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+}
+
+.modal {
+  background: linear-gradient(165deg, var(--surface-3), var(--surface));
+  border: 1px solid rgba(240, 193, 75, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 36px 30px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), var(--shadow-glow-gold);
+  animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.badge {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(240, 193, 75, 0.3),
+    rgba(240, 193, 75, 0.05)
+  );
+  border: 1px solid rgba(240, 193, 75, 0.4);
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: var(--gold);
+  font-weight: 800;
+}
+
+.level {
+  margin: 4px 0 0;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.name {
+  margin: 0 0 16px;
+  color: var(--text-secondary);
+}
+
+.rewardRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.achievement {
+  margin: 0 0 20px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.continueBtn {
+  width: 100%;
+  background: linear-gradient(90deg, var(--gold-strong), var(--gold));
+  color: #201700;
+  font-weight: 800;
+  border: none;
+  padding: 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

@@ -1,0 +1,41 @@
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.iconRing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: var(--gold);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(240, 193, 75, 0.28),
+    rgba(240, 193, 75, 0.06)
+  );
+  border: 1px solid rgba(240, 193, 75, 0.4);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.name {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}

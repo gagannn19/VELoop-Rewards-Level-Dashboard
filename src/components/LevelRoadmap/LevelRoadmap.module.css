@@ -1,0 +1,112 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  min-width: 0;
+}
+
+.headerRow {
+  margin-bottom: 18px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.track {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-top: 14px;
+  padding-bottom: 8px;
+  scroll-snap-type: x proximity;
+}
+
+.track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.step {
+  flex: 0 0 130px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  position: relative;
+  padding: 14px 10px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+}
+
+.node {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.node.completed {
+  background: rgba(79, 209, 139, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(79, 209, 139, 0.4);
+}
+
+.node.current {
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(240, 193, 75, 0.35),
+    rgba(240, 193, 75, 0.08)
+  );
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.node.locked {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.levelLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.levelName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hereTag {
+  position: absolute;
+  top: -10px;
+  background: var(--gold);
+  color: #1c1400;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+}

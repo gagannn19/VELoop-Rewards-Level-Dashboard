@@ -1,0 +1,113 @@
+:root {
+  --bg: #161827;
+  --surface: #1c1f33;
+  --surface-2: #23273f;
+  --surface-3: #2b3050;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --navy: #1b2a4a;
+  --gold: #f0c14b;
+  --gold-strong: #e0a83a;
+  --silver: #c7ccd6;
+  --soft-blue: #5b8def;
+  --warm-yellow: #f5c542;
+  --muted-purple: #9b8ce8;
+  --subtle-green: #4fd18b;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a3a8c2;
+  --text-muted: #6c7194;
+
+  --success: #4fd18b;
+  --danger: #f0665a;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-glow-gold: 0 0 32px rgba(240, 193, 75, 0.25);
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--gold);
+  color: #161827;
+}
+
+/* shared scrollbar styling for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-3);
+  border-radius: 8px;
+}
+
+.container-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+
+@media (min-width: 1440px) {
+  .container-page {
+    max-width: 1360px;
+    padding: 32px 32px 80px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container-page {
+    max-width: 1560px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container-page {
+    padding: 16px 14px 48px;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
