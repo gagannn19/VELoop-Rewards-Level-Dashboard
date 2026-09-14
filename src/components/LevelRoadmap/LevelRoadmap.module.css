@@ -52,9 +52,9 @@
 }
 
 .node {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,26 +64,19 @@
 }
 
 .node.completed {
-  background: rgba(79, 209, 139, 0.15);
+  background: linear-gradient(155deg, rgba(79, 209, 139, 0.35), rgba(79, 209, 139, 0.1));
   color: var(--success);
-  border: 1px solid rgba(79, 209, 139, 0.4);
 }
 
 .node.current {
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(240, 193, 75, 0.35),
-    rgba(240, 193, 75, 0.08)
-  );
-  color: var(--gold);
-  border: 1px solid var(--gold);
-  box-shadow: var(--shadow-glow-gold);
+  background: linear-gradient(155deg, var(--gold), var(--gold-strong) 65%, #8a6a12);
+  color: #241a02;
+  filter: drop-shadow(0 0 10px rgba(240, 193, 75, 0.55));
 }
 
 .node.locked {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-muted);
-  border: 1px solid var(--border);
 }
 
 .levelLabel {

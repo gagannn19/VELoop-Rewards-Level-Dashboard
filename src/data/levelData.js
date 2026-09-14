@@ -26,6 +26,19 @@ export const userLevelData = {
     amount: 500,
     icon: "coins",
   },
+  nextLevelPerks: [
+    "Higher daily XP limit",
+    "Access to new challenges",
+    "Better reward opportunities",
+  ],
+};
+
+// "Today's Boost" quick-glance stat row on the hero card.
+export const todaysBoost = {
+  xpEarned: 215,
+  tasksDone: 4,
+  tasksTotal: 8,
+  streakDays: 7,
 };
 
 // Full roadmap. Status is derived at render time from currentLevel,
@@ -70,8 +83,8 @@ export const earningFeatures = [
   },
   {
     id: "play-earn",
-    title: "Play & Earn",
-    description: "Complete the VE Coin Catch mini-game.",
+    title: "Mini Games",
+    description: "Complete the XP Catcher mini-game.",
     xp: 25,
     icon: "gamepad",
     status: "live",
@@ -110,10 +123,21 @@ export const xpActivity = [
   { id: 5, xp: 25, label: "Streak Bonus", time: "Today, 07:20 AM" },
 ];
 
+// XP Catcher: a golden hoop collector catches three kinds of falling
+// items, each worth a different score/XP amount, with an occasional
+// 2x multiplier drop. Distinct on purpose from the item variety of any
+// single-item "coin catch" concept: three item types + a multiplier
+// mechanic change both the visuals and the scoring rhythm.
 export const gameConfig = {
-  name: "VE Coin Catch",
-  durationSeconds: 20,
-  rewardPerCoin: 5, // XP
-  bonusThreshold: 80, // score needed for bonus VEs
+  name: "XP Catcher",
+  durationSeconds: 18,
+  itemTypes: [
+    { key: "xp", label: "XP", score: 10, xp: 4, weight: 3 },
+    { key: "gem", label: "Gem", score: 15, xp: 2, gems: 1, weight: 2 },
+    { key: "coin", label: "V", score: 10, xp: 0, ves: 2, weight: 3 },
+  ],
+  multiplierChance: 0.12,
+  multiplierValue: 2,
+  bonusThreshold: 80, // score needed for a bonus VE reward at the end
   bonusReward: { type: "VEs", amount: 12 },
 };

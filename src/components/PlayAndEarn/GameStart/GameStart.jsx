@@ -1,16 +1,17 @@
-import { Coins, Play, Timer, Trophy } from "lucide-react";
+import { Gem, Play, Sparkles, Timer, Trophy } from "lucide-react";
+import { gameConfig } from "../../../data/levelData.js";
 import styles from "../Game.module.css";
 
-function GameStart({ durationSeconds, rewardPerCoin, onStart }) {
+function GameStart({ durationSeconds, onStart }) {
   return (
     <div className={styles.panel}>
       <div className={styles.gameIconRing}>
-        <Coins size={30} />
+        <Sparkles size={30} />
       </div>
-      <h3 className={styles.heading}>VE Coin Catch</h3>
+      <h3 className={styles.heading}>{gameConfig.name}</h3>
       <p className={styles.desc}>
-        Move your collector and catch as many falling VE coins as you can
-        before time runs out.
+        Guide the golden hoop and catch falling XP orbs, Gems, and VE coins
+        before time runs out. Watch for the rare 2x multiplier.
       </p>
 
       <ul className={styles.ruleList}>
@@ -18,10 +19,13 @@ function GameStart({ durationSeconds, rewardPerCoin, onStart }) {
           <Timer size={14} /> {durationSeconds}-second challenge
         </li>
         <li>
-          <Coins size={14} /> +{rewardPerCoin} XP per coin caught
+          <Gem size={14} /> XP orbs, Gems &amp; VE coins each score differently
         </li>
         <li>
-          <Trophy size={14} /> Score 80+ for a bonus VE reward
+          <Sparkles size={14} /> Rare 2x multiplier on any catch
+        </li>
+        <li>
+          <Trophy size={14} /> Score {gameConfig.bonusThreshold}+ for a bonus VE reward
         </li>
       </ul>
 

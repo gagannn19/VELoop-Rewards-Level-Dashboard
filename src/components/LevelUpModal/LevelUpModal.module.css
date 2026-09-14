@@ -66,6 +66,32 @@
   margin-bottom: 14px;
 }
 
+.perkList {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.perkList li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perkList svg {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
 .achievement {
   margin: 0 0 20px;
   font-size: 0.8rem;

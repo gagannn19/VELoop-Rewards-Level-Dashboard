@@ -7,21 +7,35 @@ import { gameConfig } from "../../../data/levelData.js";
 /**
  * Orchestrates the mini-game's three states: start -> playing -> result.
  * `onReward` is called once per completed run so the dashboard can add
- * the earned XP (and trigger a level-up if the threshold is crossed).
+ * the earned XP/Gems/VEs (and trigger a level-up if the threshold is
+ * crossed). Game internals (phase, live score, item positions) stay
+ * fully local here and are discarded once the game closes.
  */
-function GameContainer({ onReward }) {
+function GameContainer({ onReward, onBack, progress }) {
   const [phase, setPhase] = useState("start"); // start | playing | result
   const [lastRun, setLastRun] = useState(null);
 
-  const handleFinish = (coinsCaught) => {
-    const score = coinsCaught * 10;
-    const xpEarned = coinsCaught * gameConfig.rewardPerCoin;
+  const handleFinish = (totals) => {
+    const { score, xp, gems, ves } = totals;
     const earnedBonus = score >= gameConfig.bonusThreshold;
     const bonusReward = earnedBonus ? gameConfig.bonusReward : null;
 
-    setLastRun({ score, xpEarned, bonusReward });
+    const run = {
+      score,
+      xpEarned: xp,
+      gemsEarned: gems,
+      vesEarned: ves,
+      bonusReward,
+    };
+
+    setLastRun(run);
     setPhase("result");
-    onReward({ xpEarned, bonusReward });
+    onReward?.(run);
+  };
+
+  const handleBack = () => {
+    setPhase("start");
+    onBack?.();
   };
 
   return (
@@ -29,25 +43,20 @@ function GameContainer({ onReward }) {
       {phase === "start" && (
         <GameStart
           durationSeconds={gameConfig.durationSeconds}
-          rewardPerCoin={gameConfig.rewardPerCoin}
           onStart={() => setPhase("playing")}
         />
       )}
 
       {phase === "playing" && (
-        <GamePlay
-          durationSeconds={gameConfig.durationSeconds}
-          rewardPerCoin={gameConfig.rewardPerCoin}
-          onFinish={handleFinish}
-        />
+        <GamePlay durationSeconds={gameConfig.durationSeconds} onFinish={handleFinish} />
       )}
 
       {phase === "result" && lastRun && (
         <GameResult
-          score={lastRun.score}
-          xpEarned={lastRun.xpEarned}
-          bonusReward={lastRun.bonusReward}
+          run={lastRun}
+          progress={progress}
           onPlayAgain={() => setPhase("start")}
+          onBack={onBack ? handleBack : undefined}
         />
       )}
     </>

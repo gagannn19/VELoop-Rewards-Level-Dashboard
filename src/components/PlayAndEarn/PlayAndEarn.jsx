@@ -1,7 +1,7 @@
 import GameContainer from "./GameContainer/GameContainer.jsx";
 import styles from "./PlayAndEarn.module.css";
 
-function PlayAndEarn({ onReward }) {
+function PlayAndEarn({ onReward, onBack, progress }) {
   return (
     <section className={styles.card}>
       <div className={styles.headerRow}>
@@ -10,7 +10,7 @@ function PlayAndEarn({ onReward }) {
           Something fun to do right now while you climb.
         </p>
       </div>
-      <GameContainer onReward={onReward} />
+      <GameContainer onReward={onReward} onBack={onBack} progress={progress} />
     </section>
   );
 }

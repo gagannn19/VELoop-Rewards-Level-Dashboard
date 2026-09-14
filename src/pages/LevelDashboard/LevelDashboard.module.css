@@ -1,3 +1,8 @@
+.section {
+  margin-bottom: 20px;
+  min-width: 0;
+}
+
 .gridTwo {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

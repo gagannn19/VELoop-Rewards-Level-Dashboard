@@ -1,30 +1,51 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ShoppingBasket, Timer } from "lucide-react";
+import { Timer } from "lucide-react";
+import { gameConfig } from "../../../data/levelData.js";
 import styles from "../Game.module.css";
 
-const BASKET_WIDTH_PCT = 16; // roughly matches the 72px basket at typical arena widths
-const COIN_SPEED_PCT_PER_TICK = 1.6;
+const HOOP_WIDTH_PCT = 15; // catch band width, matches the hoop's visual footprint
+const ITEM_SPEED_PCT_PER_TICK = 1.5;
 const TICK_MS = 30;
-const SPAWN_MS = 650;
+const SPAWN_MS = 600;
+
+const ITEM_DISPLAY = {
+  xp: { className: "itemXp", glyph: "XP" },
+  gem: { className: "itemGem", glyph: "◆" },
+  coin: { className: "itemCoin", glyph: "V" },
+};
+
+/** Weighted random pick from gameConfig.itemTypes. */
+function pickItemType() {
+  const totalWeight = gameConfig.itemTypes.reduce((sum, t) => sum + t.weight, 0);
+  let roll = Math.random() * totalWeight;
+  for (const type of gameConfig.itemTypes) {
+    if (roll < type.weight) return type;
+    roll -= type.weight;
+  }
+  return gameConfig.itemTypes[0];
+}
 
 /**
- * Functional mini-game: catch falling coins with the basket for
- * `durationSeconds`, then report the run back to the parent.
+ * Functional mini-game: guide the golden hoop to catch falling XP orbs,
+ * Gems, and VE coins for `durationSeconds`, then report the run's totals
+ * back to the parent. A rare multiplier doubles a single catch's reward.
  */
-function GamePlay({ durationSeconds, rewardPerCoin, onFinish }) {
+function GamePlay({ durationSeconds, onFinish }) {
   const arenaRef = useRef(null);
-  const coinsRef = useRef([]);
+  const itemsRef = useRef([]);
   const nextIdRef = useRef(1);
-  const basketXRef = useRef(50);
+  const hoopXRef = useRef(50);
+  const totalsRef = useRef({ score: 0, xp: 0, gems: 0, ves: 0 });
 
-  const [basketX, setBasketX] = useState(50);
-  const [coins, setCoins] = useState([]);
-  const [caught, setCaught] = useState(0);
+  const [hoopX, setHoopX] = useState(50);
+  const [items, setItems] = useState([]);
+  const [totals, setTotals] = useState({ score: 0, xp: 0, gems: 0, ves: 0 });
   const [timeLeft, setTimeLeft] = useState(durationSeconds);
+  const [popText, setPopText] = useState(null);
 
   const finish = useCallback(() => {
-    onFinish(caught);
-  }, [caught, onFinish]);
+    onFinish(totalsRef.current);
+  }, [onFinish]);
 
   // countdown
   useEffect(() => {
@@ -40,33 +61,45 @@ function GamePlay({ durationSeconds, rewardPerCoin, onFinish }) {
   // spawn + fall loop
   useEffect(() => {
     const spawn = setInterval(() => {
-      coinsRef.current = [
-        ...coinsRef.current,
-        { id: nextIdRef.current++, x: 10 + Math.random() * 80, y: -5 },
+      const type = pickItemType();
+      itemsRef.current = [
+        ...itemsRef.current,
+        { id: nextIdRef.current++, x: 10 + Math.random() * 80, y: -5, typeKey: type.key },
       ];
     }, SPAWN_MS);
 
     const tick = setInterval(() => {
       const next = [];
-      let caughtThisTick = 0;
+      let gained = null;
 
-      for (const coin of coinsRef.current) {
-        const y = coin.y + COIN_SPEED_PCT_PER_TICK;
-        const inBasketBand = y >= 82 && y <= 96;
-        const inBasketX =
-          Math.abs(coin.x - basketXRef.current) < BASKET_WIDTH_PCT / 2;
+      for (const item of itemsRef.current) {
+        const y = item.y + ITEM_SPEED_PCT_PER_TICK;
+        const inHoopBand = y >= 80 && y <= 94;
+        const inHoopX = Math.abs(item.x - hoopXRef.current) < HOOP_WIDTH_PCT / 2;
 
-        if (inBasketBand && inBasketX) {
-          caughtThisTick += 1;
+        if (inHoopBand && inHoopX) {
+          const type = gameConfig.itemTypes.find((t) => t.key === item.typeKey);
+          const isMultiplier = Math.random() < gameConfig.multiplierChance;
+          const mult = isMultiplier ? gameConfig.multiplierValue : 1;
+
+          totalsRef.current = {
+            score: totalsRef.current.score + type.score * mult,
+            xp: totalsRef.current.xp + (type.xp || 0) * mult,
+            gems: totalsRef.current.gems + (type.gems || 0) * mult,
+            ves: totalsRef.current.ves + (type.ves || 0) * mult,
+          };
+          gained = { label: ITEM_DISPLAY[type.key].glyph, mult };
           continue; // caught, remove from field
         }
-        if (y < 104) next.push({ ...coin, y });
+        if (y < 104) next.push({ ...item, y });
       }
 
-      coinsRef.current = next;
-      setCoins(next);
-      if (caughtThisTick > 0) {
-        setCaught((c) => c + caughtThisTick);
+      itemsRef.current = next;
+      setItems(next);
+      if (gained) {
+        setTotals({ ...totalsRef.current });
+        setPopText(gained.mult > 1 ? `2x BONUS!` : `+${gained.label}`);
+        setTimeout(() => setPopText(null), 420);
       }
     }, TICK_MS);
 
@@ -76,28 +109,28 @@ function GamePlay({ durationSeconds, rewardPerCoin, onFinish }) {
     };
   }, []);
 
-  const moveBasketTo = useCallback((clientX) => {
+  const moveHoopTo = useCallback((clientX) => {
     const arena = arenaRef.current;
     if (!arena) return;
     const rect = arena.getBoundingClientRect();
     const pct = ((clientX - rect.left) / rect.width) * 100;
     const clamped = Math.min(94, Math.max(6, pct));
-    basketXRef.current = clamped;
-    setBasketX(clamped);
+    hoopXRef.current = clamped;
+    setHoopX(clamped);
   }, []);
 
-  const handlePointerMove = (e) => moveBasketTo(e.clientX);
+  const handlePointerMove = (e) => moveHoopTo(e.clientX);
   const handleTouchMove = (e) => {
-    if (e.touches && e.touches[0]) moveBasketTo(e.touches[0].clientX);
+    if (e.touches && e.touches[0]) moveHoopTo(e.touches[0].clientX);
   };
   const handleKeyDown = (e) => {
     if (e.key === "ArrowLeft") {
-      basketXRef.current = Math.max(6, basketXRef.current - 6);
-      setBasketX(basketXRef.current);
+      hoopXRef.current = Math.max(6, hoopXRef.current - 6);
+      setHoopX(hoopXRef.current);
     }
     if (e.key === "ArrowRight") {
-      basketXRef.current = Math.min(94, basketXRef.current + 6);
-      setBasketX(basketXRef.current);
+      hoopXRef.current = Math.min(94, hoopXRef.current + 6);
+      setHoopX(hoopXRef.current);
     }
   };
 
@@ -105,14 +138,14 @@ function GamePlay({ durationSeconds, rewardPerCoin, onFinish }) {
     <div>
       <div className={styles.playHud}>
         <span>
-          Score: <strong>{caught * 10}</strong>
+          Score: <strong>{totals.score}</strong>
         </span>
         <span className={timeLeft <= 5 ? styles.timerBad : ""}>
           <Timer size={14} style={{ marginRight: 4 }} />
           {timeLeft}s
         </span>
         <span>
-          +{rewardPerCoin} XP / coin
+          {totals.xp} XP &middot; {totals.gems} Gems &middot; {totals.ves} VEs
         </span>
       </div>
 
@@ -123,21 +156,23 @@ function GamePlay({ durationSeconds, rewardPerCoin, onFinish }) {
         onTouchMove={handleTouchMove}
         tabIndex={0}
         role="application"
-        aria-label="VE Coin Catch play area. Use arrow keys or drag to move the collector."
+        aria-label="XP Catcher play area. Use arrow keys or drag to move the hoop."
         onKeyDown={handleKeyDown}
       >
-        {coins.map((c) => (
+        {popText && <div className={styles.popText}>{popText}</div>}
+
+        {items.map((it) => (
           <div
-            key={c.id}
-            className={styles.coin}
-            style={{ left: `${c.x}%`, top: `${c.y}%` }}
+            key={it.id}
+            className={`${styles.fallingItem} ${styles[ITEM_DISPLAY[it.typeKey].className]}`}
+            style={{ left: `${it.x}%`, top: `${it.y}%` }}
           >
-            <span style={{ fontSize: 12, fontWeight: 800 }}>V</span>
+            {ITEM_DISPLAY[it.typeKey].glyph}
           </div>
         ))}
 
-        <div className={styles.basket} style={{ left: `${basketX}%` }}>
-          <ShoppingBasket size={20} />
+        <div className={styles.hoop} style={{ left: `${hoopX}%` }}>
+          <span className={styles.hoopRing} />
         </div>
       </div>
     </div>
