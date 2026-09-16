@@ -11,6 +11,7 @@
 }
 
 .current {
+  font-family: var(--font-display);
   font-size: 1.1rem;
   color: var(--text-primary);
 }
@@ -36,11 +37,44 @@
 }
 
 .fill {
+  position: relative;
   height: 100%;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--gold-strong), var(--gold));
   box-shadow: 0 0 12px rgba(240, 193, 75, 0.55);
   transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+
+.fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: fillShine 2.4s ease-in-out infinite;
+}
+
+@keyframes fillShine {
+  0% {
+    background-position: 140% 0;
+  }
+  60%,
+  100% {
+    background-position: -40% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill::after {
+    animation: none;
+    display: none;
+  }
 }
 
 .remaining {

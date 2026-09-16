@@ -10,7 +10,7 @@ function statusFor(levelNumber, currentLevel) {
 
 function LevelRoadmap({ roadmap, currentLevel }) {
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} premiumCard`}>
       <div className={styles.headerRow}>
         <h2 className={styles.title}>Level Progression Roadmap</h2>
         <p className={styles.subtitle}>Current, upcoming, and future levels</p>

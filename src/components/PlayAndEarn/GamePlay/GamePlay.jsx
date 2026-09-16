@@ -134,18 +134,15 @@ function GamePlay({ durationSeconds, onFinish }) {
     }
   };
 
+  const coinType = gameConfig.itemTypes.find((t) => t.key === "coin");
+
   return (
     <div>
-      <div className={styles.playHud}>
-        <span>
-          Score: <strong>{totals.score}</strong>
-        </span>
-        <span className={timeLeft <= 5 ? styles.timerBad : ""}>
-          <Timer size={14} style={{ marginRight: 4 }} />
+      <div className={styles.playHeader}>
+        <span className={styles.playEyebrow}>{gameConfig.name.toUpperCase()}</span>
+        <span className={`${styles.timerPill} ${timeLeft <= 5 ? styles.timerBad : ""}`}>
+          <Timer size={13} />
           {timeLeft}s
-        </span>
-        <span>
-          {totals.xp} XP &middot; {totals.gems} Gems &middot; {totals.ves} VEs
         </span>
       </div>
 
@@ -173,7 +170,28 @@ function GamePlay({ durationSeconds, onFinish }) {
 
         <div className={styles.hoop} style={{ left: `${hoopX}%` }}>
           <span className={styles.hoopRing} />
+          <span className={styles.hoopNet} />
         </div>
+      </div>
+
+      <div className={styles.scorePanel}>
+        <span className={styles.scoreLabel}>Your Score</span>
+        <span className={styles.scoreBigLive}>{totals.score}</span>
+        <span className={styles.scoreCaption}>
+          {totals.xp} XP &middot; {totals.gems} Gems &middot; {totals.ves} VEs earned
+        </span>
+      </div>
+
+      <div className={styles.legendRow}>
+        {coinType && (
+          <span className={styles.legendChip}>
+            <span className={styles.legendDotGold} />+{coinType.ves} VEs
+          </span>
+        )}
+        <span className={styles.legendChip}>
+          <span className={styles.legendDotPurple} />
+          {gameConfig.multiplierValue}X Multiplier
+        </span>
       </div>
     </div>
   );

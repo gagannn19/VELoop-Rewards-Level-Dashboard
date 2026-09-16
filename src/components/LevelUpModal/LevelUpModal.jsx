@@ -1,5 +1,7 @@
 import { useEffect } from "react";
-import { PartyPopper, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import Confetti from "../Confetti/Confetti.jsx";
+import SparkleField from "../SparkleField/SparkleField.jsx";
 import LevelRewardCard from "../LevelRewardCard/LevelRewardCard.jsx";
 import styles from "./LevelUpModal.module.css";
 
@@ -18,13 +20,24 @@ function LevelUpModal({ level, levelName, rewards, perks, onContinue }) {
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true">
       <div className={styles.modal}>
-        <div className={styles.badge}>
-          <PartyPopper size={32} />
-        </div>
+        <SparkleField count={16} />
+        <Confetti count={30} />
+
         <p className={styles.eyebrow}>Level Up!</p>
-        <h2 className={styles.level}>
-          Level {String(level).padStart(2, "0")}
-        </h2>
+        <p className={styles.reached}>You&apos;ve reached</p>
+
+        <div className={styles.pedestalWrap}>
+          <span className={styles.pedestalGlow} aria-hidden="true" />
+          <div className={`${styles.hex} glowPulse`}>
+            <div className={styles.hexInner}>
+              <span className="lightSweep" aria-hidden="true" />
+              <span className={styles.hexLabel}>LEVEL</span>
+              <span className={styles.hexValue}>{String(level).padStart(2, "0")}</span>
+            </div>
+          </div>
+          <span className={styles.pedestalBase} aria-hidden="true" />
+        </div>
+
         <p className={styles.name}>{levelName}</p>
 
         {rewards && rewards.length > 0 && (
@@ -46,9 +59,8 @@ function LevelUpModal({ level, levelName, rewards, perks, onContinue }) {
           </ul>
         )}
 
-        <p className={styles.achievement}>Achievement Unlocked</p>
-
         <button type="button" className={styles.continueBtn} onClick={onContinue}>
+          <span className="lightSweep" aria-hidden="true" />
           Claim Rewards
         </button>
       </div>

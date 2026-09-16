@@ -1,6 +1,7 @@
 import {
   Calendar,
   CheckSquare,
+  ChevronRight,
   Flame,
   Gamepad2,
   Play,
@@ -19,37 +20,58 @@ const ICONS = {
   calendar: Calendar,
 };
 
+// Presentational accent per feature icon — matches the purple/green/blue/
+// orange reward-color system from the design reference. Purely a display
+// concern; the underlying feature data stays untouched.
+const ACCENTS = {
+  play: "purple",
+  "check-square": "green",
+  users: "blue",
+  gamepad: "blue",
+  flame: "orange",
+  search: "muted",
+  calendar: "muted",
+};
+
 function EarnMoreXP({ features, onQuickEarn }) {
   return (
-    <section className={styles.card}>
+    <section className={`${styles.card} premiumCard`}>
       <div className={styles.headerRow}>
         <h2 className={styles.title}>Earn More XP & Rewards</h2>
         <p className={styles.subtitle}>
-          Actionable ways to progress toward your next level.
+          Complete activities. Earn XP. Climb levels. Get rewards.
         </p>
       </div>
 
-      <div className={styles.grid}>
+      <div className={styles.list}>
         {features.map((f) => {
           const Icon = ICONS[f.icon] || Play;
+          const accent = ACCENTS[f.icon] || "gold";
           const isComingSoon = f.status === "coming-soon";
           return (
             <button
               key={f.id}
               type="button"
-              className={`${styles.tile} ${isComingSoon ? styles.soon : ""}`}
+              className={`${styles.row} ${isComingSoon ? styles.soon : ""}`}
               disabled={isComingSoon}
               onClick={() => onQuickEarn(f)}
             >
-              {isComingSoon && (
-                <span className={styles.soonTag}>Coming Soon</span>
-              )}
-              <span className={styles.iconWrap}>
+              <span className={`${styles.iconWrap} ${styles[accent]}`}>
                 <Icon size={20} />
               </span>
-              <span className={styles.tileTitle}>{f.title}</span>
-              <span className={styles.tileDesc}>{f.description}</span>
-              <span className={styles.tileXp}>+{f.xp} XP</span>
+
+              <span className={styles.info}>
+                <span className={styles.rowTitle}>
+                  {f.title}
+                  {isComingSoon && <span className={styles.soonTag}>Coming Soon</span>}
+                </span>
+                <span className={styles.rowDesc}>{f.description}</span>
+              </span>
+
+              <span className={styles.rowRight}>
+                <span className={styles.xp}>+{f.xp} XP</span>
+                <ChevronRight size={18} className={styles.chevron} />
+              </span>
             </button>
           );
         })}

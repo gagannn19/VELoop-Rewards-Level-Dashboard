@@ -11,7 +11,7 @@ import { gameConfig } from "../../../data/levelData.js";
  * crossed). Game internals (phase, live score, item positions) stay
  * fully local here and are discarded once the game closes.
  */
-function GameContainer({ onReward, onBack, progress }) {
+function GameContainer({ onReward, onBack, progress, bestScore = 0 }) {
   const [phase, setPhase] = useState("start"); // start | playing | result
   const [lastRun, setLastRun] = useState(null);
 
@@ -19,6 +19,7 @@ function GameContainer({ onReward, onBack, progress }) {
     const { score, xp, gems, ves } = totals;
     const earnedBonus = score >= gameConfig.bonusThreshold;
     const bonusReward = earnedBonus ? gameConfig.bonusReward : null;
+    const isNewBest = score > bestScore;
 
     const run = {
       score,
@@ -26,6 +27,7 @@ function GameContainer({ onReward, onBack, progress }) {
       gemsEarned: gems,
       vesEarned: ves,
       bonusReward,
+      isNewBest,
     };
 
     setLastRun(run);

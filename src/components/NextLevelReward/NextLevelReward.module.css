@@ -9,7 +9,7 @@
 }
 
 .header {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .title {
@@ -17,6 +17,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.8rem;
+  line-height: 1.4;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
@@ -26,8 +27,8 @@
 .rewardBlock {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
 .iconWrap {
@@ -43,9 +44,37 @@
 }
 
 .unlockText {
-  margin: 0 0 14px;
+  margin: 0 0 20px;
   color: var(--text-secondary);
   font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.preview {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview::before {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 193, 75, 0.28), rgba(155, 107, 242, 0.14) 55%, transparent 75%);
+  filter: blur(2px);
+}
+
+.previewImg {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
 }
 
 .miniTrack {

@@ -1,20 +1,14 @@
 import CurrentLevel from "../CurrentLevel/CurrentLevel.jsx";
 import XPProgress from "../XPProgress/XPProgress.jsx";
 import TodaysBoost from "../TodaysBoost/TodaysBoost.jsx";
+import SparkleField from "../SparkleField/SparkleField.jsx";
 import styles from "./LevelHero.module.css";
 
 function LevelHero({ level, levelName, currentXP, requiredXP, boost }) {
   return (
     <section className={styles.hero}>
-      <div className={styles.copy}>
-        <h1 className={styles.title}>Level Up Your Rewards</h1>
-        <p className={styles.subtitle}>
-          Keep earning XP, unlock new levels, and discover better rewards
-          along the way.
-        </p>
-      </div>
-
-      <div className={styles.card}>
+      <div className={`${styles.card} premiumCard`}>
+        <SparkleField count={22} />
         <CurrentLevel level={level} name={levelName} />
         <div className={styles.progressRow}>
           <XPProgress currentXP={currentXP} requiredXP={requiredXP} />

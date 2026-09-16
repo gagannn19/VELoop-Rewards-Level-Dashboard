@@ -119,7 +119,7 @@ export const xpActivity = [
   { id: 1, xp: 20, label: "Referral Bonus", time: "Today, 10:45 AM" },
   { id: 2, xp: 50, label: "Daily Mission Completed", time: "Today, 09:12 AM" },
   { id: 3, xp: 75, label: "Mini Game Win", time: "Today, 08:30 AM" },
-  { id: 4, xp: 10, label: "XP Catcher Reward", time: "Today, 07:50 AM" },
+  { id: 4, xp: 0, ves: 10, label: "XP Catcher Reward", time: "Today, 07:50 AM" },
   { id: 5, xp: 25, label: "Streak Bonus", time: "Today, 07:20 AM" },
 ];
 
