@@ -4,11 +4,13 @@ import styles from "./CurrentLevel.module.css";
 function CurrentLevel({ level, name }) {
   return (
     <div className={styles.badge}>
-      <div className={`${styles.hex} glowPulse`}>
-        <div className={styles.hexInner}>
-          <span className="lightSweep" aria-hidden="true" />
-          <span className={styles.hexLabel}>LEVEL</span>
-          <span className={styles.hexValue}>{String(level).padStart(2, "0")}</span>
+      <div className={styles.hexStage}>
+        <div className={styles.hex}>
+          <div className={styles.hexInner}>
+            <span className="lightSweep" aria-hidden="true" />
+            <span className={styles.hexLabel}>LEVEL</span>
+            <span className={styles.hexValue}>{String(level).padStart(2, "0")}</span>
+          </div>
         </div>
       </div>
       <div>

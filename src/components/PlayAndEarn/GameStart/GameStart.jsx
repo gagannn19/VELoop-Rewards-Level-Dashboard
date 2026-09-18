@@ -2,11 +2,22 @@ import { Gem, Info, Play, Sparkles, Timer, Trophy } from "lucide-react";
 import { gameConfig } from "../../../data/levelData.js";
 import styles from "../Game.module.css";
 
+/** Mirrors the in-game catcher (Game.module.css .hoop*) at a smaller scale
+ * so the player recognizes the hoop-and-net catch mechanic before playing. */
+function HoopGlyph() {
+  return (
+    <span className={styles.startHoop} aria-hidden="true">
+      <span className={styles.startHoopRing} />
+      <span className={styles.startHoopNet} />
+    </span>
+  );
+}
+
 function GameStart({ durationSeconds, onStart }) {
   return (
     <div className={styles.panel}>
       <div className={styles.gameIconRing}>
-        <Sparkles size={30} />
+        <HoopGlyph />
       </div>
       <h3 className={styles.heading}>
         {gameConfig.name.toUpperCase()}

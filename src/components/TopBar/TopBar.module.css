@@ -1,6 +1,13 @@
 .wrap {
-  position: relative;
-  margin-bottom: 18px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  margin-bottom: 32px;
+  padding: 10px 0 8px;
+  background: rgba(5, 6, 8, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(240, 193, 75, 0.14);
 }
 
 .row {
@@ -37,47 +44,68 @@
 .greeting {
   flex: 1;
   min-width: 0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(240, 193, 75, 0.4);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
 }
 
 .greetingTitle {
-  margin: 0 0 7px;
-  font-family: var(--font-greeting);
+  margin: 0 0 3px;
   font-size: 1.7rem;
   font-weight: 400;
   letter-spacing: 0.02em;
-  line-height: 1.3;
+  line-height: 1.15;
   color: var(--gold-soft);
   filter: drop-shadow(0 0 14px rgba(240, 193, 75, 0.35));
 }
 
-.letter {
-  display: inline-block;
-  animation: letterPop 0.5s var(--ease-spring) both;
+.greetingWord {
+  font-family: var(--font-greeting-word);
+  font-weight: 700;
 }
 
-@keyframes letterPop {
-  from {
+.velooperWord {
+  display: inline-flex;
+  font-family: var(--font-velooper);
+  font-size: 0.72em;
+  letter-spacing: 0;
+  vertical-align: -0.05em;
+}
+
+.inflateLetter {
+  display: inline-block;
+  background: linear-gradient(100deg, var(--gold-strong) 30%, #fff8dd 50%, var(--gold-strong) 70%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: inflateIn 0.7s var(--ease-spring) both, letterShine 2.6s ease-in-out infinite;
+}
+
+@keyframes inflateIn {
+  0% {
     opacity: 0;
-    transform: translateY(14px) scale(0.4) rotate(-10deg);
+    transform: scale(0);
   }
-  to {
+  55% {
     opacity: 1;
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: scale(1.35);
   }
-}
-
-.letterInner {
-  display: inline-block;
-  animation: letterBounce 1.7s ease-in-out infinite;
-}
-
-@keyframes letterBounce {
-  0%,
+  75% {
+    transform: scale(0.88);
+  }
   100% {
-    transform: translateY(0);
+    transform: scale(1);
   }
-  50% {
-    transform: translateY(-5px);
+}
+
+@keyframes letterShine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 
@@ -111,8 +139,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .letter,
-  .letterInner,
+  .inflateLetter,
   .wave {
     animation: none;
   }
@@ -123,7 +150,7 @@
   font-family: var(--font-body);
   font-size: 0.84rem;
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.3;
   color: var(--text-secondary);
 }
 

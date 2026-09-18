@@ -45,7 +45,8 @@
 
   --font-body: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-display: "Sora", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-greeting: "Luckiest Guy", "Sora", cursive;
+  --font-greeting-word: "Nunito Sans", "Plus Jakarta Sans", sans-serif;
+  --font-velooper: "Press Start 2P", "Sora", cursive;
 
   color-scheme: dark;
 }
@@ -63,10 +64,10 @@ body,
 body {
   margin: 0;
   background:
-    radial-gradient(ellipse 900px 500px at 12% -10%, rgba(155, 107, 242, 0.1), transparent 60%),
-    radial-gradient(ellipse 900px 600px at 88% 0%, rgba(240, 193, 75, 0.08), transparent 55%),
-    radial-gradient(ellipse 1000px 700px at 50% 100%, rgba(61, 220, 138, 0.05), transparent 60%),
-    var(--bg);
+    radial-gradient(ellipse 1000px 600px at 15% -10%, rgba(91, 141, 239, 0.16), transparent 60%),
+    radial-gradient(ellipse 900px 700px at 88% 5%, rgba(120, 130, 150, 0.14), transparent 55%),
+    radial-gradient(ellipse 1100px 800px at 50% 105%, rgba(60, 75, 100, 0.28), transparent 65%),
+    linear-gradient(180deg, #050608 0%, #0b0d13 45%, #050608 100%);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-body);

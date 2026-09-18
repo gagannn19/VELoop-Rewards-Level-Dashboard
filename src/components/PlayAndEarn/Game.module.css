@@ -28,6 +28,67 @@
   border: 1px solid rgba(240, 193, 75, 0.4);
 }
 
+/* Small preview of the in-game hoop (see .hoop / .hoopRing / .hoopNet
+   below), shown before the round starts so the catch mechanic reads at a
+   glance. */
+.startHoop {
+  position: relative;
+  display: block;
+  width: 42px;
+  height: 26px;
+  animation: hoopSway 3.2s ease-in-out infinite;
+}
+
+.startHoopRing {
+  display: block;
+  width: 42px;
+  height: 15px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  background: radial-gradient(ellipse at 50% 30%, rgba(240, 193, 75, 0.25), transparent 70%);
+  box-shadow: 0 0 12px rgba(240, 193, 75, 0.6), inset 0 0 8px rgba(240, 193, 75, 0.4);
+}
+
+.startHoopNet {
+  position: absolute;
+  top: 11px;
+  left: 5px;
+  width: 32px;
+  height: 13px;
+  clip-path: polygon(8% 0%, 92% 0%, 78% 100%, 22% 100%);
+  background: repeating-linear-gradient(
+      65deg,
+      rgba(240, 193, 75, 0.55) 0,
+      rgba(240, 193, 75, 0.55) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    repeating-linear-gradient(
+      115deg,
+      rgba(240, 193, 75, 0.55) 0,
+      rgba(240, 193, 75, 0.55) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+  opacity: 0.85;
+}
+
+@keyframes hoopSway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startHoop {
+    animation: none;
+  }
+}
+
 .heading {
   margin: 0;
   font-size: 1.25rem;

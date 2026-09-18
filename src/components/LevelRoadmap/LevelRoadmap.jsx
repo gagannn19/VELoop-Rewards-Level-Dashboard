@@ -22,9 +22,11 @@ function LevelRoadmap({ roadmap, currentLevel }) {
           return (
             <div key={item.level} className={styles.step}>
               <div className={`${styles.node} ${styles[status]}`}>
-                {status === "completed" && <Check size={16} />}
-                {status === "locked" && <Lock size={14} />}
-                {status === "current" && item.level}
+                <span className={styles.nodeInner}>
+                  {status === "completed" && <Check size={17} strokeWidth={3} />}
+                  {status === "locked" && <Lock size={14} />}
+                  {status === "current" && item.level}
+                </span>
               </div>
               <div className={styles.levelLabel}>
                 Level {String(item.level).padStart(2, "0")}

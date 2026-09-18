@@ -11,22 +11,18 @@ function getGreeting() {
 }
 
 /**
- * Splits text into per-letter spans: the outer span pops each letter in on
- * a stagger, the inner span then keeps it bobbing in an endless wave.
+ * Splits text into per-letter spans that inflate in on a stagger (each
+ * letter balloons up past full size, then settles) — used for "VELooper"
+ * only.
  */
-function AnimatedLetters({ text }) {
+function InflateLetters({ text }) {
   return Array.from(text).map((char, i) => (
     <span
       key={i}
-      className={styles.letter}
-      style={{ animationDelay: `${i * 0.035}s` }}
+      className={styles.inflateLetter}
+      style={{ animationDelay: `${i * 0.06}s` }}
     >
-      <span
-        className={styles.letterInner}
-        style={{ animationDelay: `${i * 0.06}s` }}
-      >
-        {char === " " ? " " : char}
-      </span>
+      {char === " " ? " " : char}
     </span>
   ));
 }
@@ -84,9 +80,12 @@ function TopBar({ activity = [], onNavigate }) {
         </button>
 
         <div className={styles.greeting}>
-          <h1 className={styles.greetingTitle} aria-label={`${getGreeting()}, VeLooper! 👋`}>
+          <h1 className={styles.greetingTitle} aria-label={`${getGreeting()}, VELooper! 👋`}>
             <span aria-hidden="true">
-              <AnimatedLetters text={`${getGreeting()}, VeLooper!`} />
+              <span className={styles.greetingWord}>{getGreeting()}, </span>
+              <span className={styles.velooperWord}>
+                <InflateLetters text="VELooper!" />
+              </span>
             </span>{" "}
             <span className={styles.wave} aria-hidden="true">
               👋

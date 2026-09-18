@@ -1,12 +1,23 @@
+import { useState } from "react";
 import { Lock } from "lucide-react";
-import treasureChest from "../../assets/treasure-chest.png";
 import LevelRewardCard from "../LevelRewardCard/LevelRewardCard.jsx";
 import LevelInfo from "../LevelInfo/LevelInfo.jsx";
+import ClosedChest from "./ClosedChest.jsx";
+import OpenChest from "./OpenChest.jsx";
+import CoinRain from "./CoinRain.jsx";
 import styles from "./NextLevelReward.module.css";
 
 function NextLevelReward({ nextLevel, reward, progressPct }) {
+  // Opens on the first hover and stays open (and raining) from then on —
+  // it never reverts to closed, even after the pointer leaves.
+  const [revealed, setRevealed] = useState(false);
+
   return (
-    <div className={`${styles.card} premiumCard`}>
+    <div
+      className={`${styles.card} premiumCard`}
+      onMouseEnter={() => setRevealed(true)}
+      onFocus={() => setRevealed(true)}
+    >
       <div className={styles.header}>
         <span className={styles.title}>
           Next Level Reward
@@ -25,8 +36,10 @@ function NextLevelReward({ nextLevel, reward, progressPct }) {
         Reach Level {String(nextLevel).padStart(2, "0")} to unlock
       </p>
 
-      <div className={styles.preview}>
-        <img src={treasureChest} alt="" className={styles.previewImg} />
+      <div className={`${styles.preview} ${revealed ? styles.revealed : ""}`}>
+        <ClosedChest className={`${styles.chestArt} ${styles.chestClosed}`} />
+        <OpenChest className={`${styles.chestArt} ${styles.chestOpen}`} />
+        <CoinRain />
       </div>
 
       <div className={styles.miniTrack}>

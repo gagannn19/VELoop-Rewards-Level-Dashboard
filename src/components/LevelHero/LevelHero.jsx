@@ -8,7 +8,9 @@ function LevelHero({ level, levelName, currentXP, requiredXP, boost }) {
   return (
     <section className={styles.hero}>
       <div className={`${styles.card} premiumCard`}>
-        <SparkleField count={22} />
+        <div className={styles.sparkleCorner}>
+          <SparkleField count={8} />
+        </div>
         <CurrentLevel level={level} name={levelName} />
         <div className={styles.progressRow}>
           <XPProgress currentXP={currentXP} requiredXP={requiredXP} />
