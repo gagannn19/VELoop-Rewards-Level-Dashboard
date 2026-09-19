@@ -7,10 +7,10 @@
 
 .card {
   position: relative;
-  background: #000000;
-  border: 1px solid rgba(240, 193, 75, 0.4);
+  background: var(--bg);
+  border: 1px solid rgba(240, 193, 75, 0.22);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 20px;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;

@@ -28,63 +28,22 @@
   border: 1px solid rgba(240, 193, 75, 0.4);
 }
 
-/* Small preview of the in-game hoop (see .hoop / .hoopRing / .hoopNet
-   below), shown before the round starts so the catch mechanic reads at a
-   glance. */
-.startHoop {
+/* Small preview of the in-game cart (see .cart / .cartIcon below), shown
+   before the round starts so the catch mechanic reads at a glance. */
+.startCart {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 42px;
-  height: 26px;
-  animation: hoopSway 3.2s ease-in-out infinite;
-}
-
-.startHoopRing {
-  display: block;
-  width: 42px;
-  height: 15px;
-  border-radius: 50%;
-  border: 3px solid var(--gold);
-  background: radial-gradient(ellipse at 50% 30%, rgba(240, 193, 75, 0.25), transparent 70%);
-  box-shadow: 0 0 12px rgba(240, 193, 75, 0.6), inset 0 0 8px rgba(240, 193, 75, 0.4);
-}
-
-.startHoopNet {
-  position: absolute;
-  top: 11px;
-  left: 5px;
-  width: 32px;
-  height: 13px;
-  clip-path: polygon(8% 0%, 92% 0%, 78% 100%, 22% 100%);
-  background: repeating-linear-gradient(
-      65deg,
-      rgba(240, 193, 75, 0.55) 0,
-      rgba(240, 193, 75, 0.55) 1px,
-      transparent 1px,
-      transparent 5px
-    ),
-    repeating-linear-gradient(
-      115deg,
-      rgba(240, 193, 75, 0.55) 0,
-      rgba(240, 193, 75, 0.55) 1px,
-      transparent 1px,
-      transparent 5px
-    );
-  opacity: 0.85;
-}
-
-@keyframes hoopSway {
-  0%,
-  100% {
-    transform: rotate(-4deg);
-  }
-  50% {
-    transform: rotate(4deg);
-  }
+  height: 34px;
+  color: var(--gold);
+  filter: drop-shadow(0 0 8px rgba(240, 193, 75, 0.5));
+  animation: cartSway 3.2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .startHoop {
+  .startCart {
     animation: none;
   }
 }
@@ -166,6 +125,13 @@
 
 /* --- Gameplay --- */
 
+.playRoot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
 .playHeader {
   display: flex;
   justify-content: space-between;
@@ -203,7 +169,8 @@
 .arena {
   position: relative;
   width: 100%;
-  height: 300px;
+  flex: 1 1 auto;
+  min-height: 280px;
   border-radius: var(--radius-md);
   background: radial-gradient(
       circle at 20% 0%,
@@ -292,79 +259,85 @@
 
 .fallingItem {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  overflow: hidden;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  font-weight: 800;
   pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
 }
 
-.itemXp {
-  background: radial-gradient(circle at 35% 30%, #ecdcff, var(--purple));
-  color: #2c1653;
-  box-shadow: 0 0 10px rgba(155, 107, 242, 0.65);
+/* Each source asset frames its art differently (the coin fills its tile,
+   the gem/star sit inside more padding) — object-fit:cover alone can't
+   equalize that since both are already square-in-square, so each type
+   gets its own zoom to read as the same visual size at a glance. */
+.fallingItemImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.itemGem {
-  background: radial-gradient(circle at 35% 30%, #daffe9, var(--green));
-  color: #0d3a22;
-  box-shadow: 0 0 10px rgba(61, 220, 138, 0.6);
-  border-radius: 4px;
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+.itemImgXp {
+  transform: scale(1.15);
 }
 
-.itemCoin {
-  background: radial-gradient(circle at 35% 30%, #ffe9a8, var(--gold-strong));
-  color: #4a3600;
-  box-shadow: 0 0 10px rgba(240, 193, 75, 0.6);
+.itemImgGem {
+  transform: scale(1.55);
 }
 
-.hoop {
+.itemImgCoin {
+  transform: scale(1.05);
+}
+
+/* ---- catcher: a golden 3D shopping cart, swapped in for the old
+   hoop-and-net so the catch mechanic reads as "shopping" not "sports". ---- */
+.cart {
   position: absolute;
-  bottom: 8px;
+  bottom: 6px;
   transform: translateX(-50%);
-  width: 68px;
-  height: 40px;
+  width: 78px;
+  height: 62px;
   pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-.hoopRing {
-  display: block;
-  width: 68px;
-  height: 24px;
-  border-radius: 50%;
-  border: 4px solid var(--gold);
-  background: radial-gradient(ellipse at 50% 30%, rgba(240, 193, 75, 0.25), transparent 70%);
-  box-shadow: 0 0 16px rgba(240, 193, 75, 0.65), inset 0 0 10px rgba(240, 193, 75, 0.4);
-}
-
-.hoopNet {
+.cartGlow {
   position: absolute;
-  top: 18px;
-  left: 8px;
-  width: 52px;
-  height: 20px;
-  clip-path: polygon(8% 0%, 92% 0%, 78% 100%, 22% 100%);
-  background: repeating-linear-gradient(
-      65deg,
-      rgba(240, 193, 75, 0.55) 0,
-      rgba(240, 193, 75, 0.55) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    repeating-linear-gradient(
-      115deg,
-      rgba(240, 193, 75, 0.55) 0,
-      rgba(240, 193, 75, 0.55) 1px,
-      transparent 1px,
-      transparent 6px
-    );
-  opacity: 0.8;
+  bottom: -4px;
+  width: 56px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(240, 193, 75, 0.55), transparent 75%);
+  filter: blur(2px);
+}
+
+.cartIcon {
+  position: relative;
+  color: var(--gold);
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 10px rgba(240, 193, 75, 0.55));
+  animation: cartSway 3.2s ease-in-out infinite;
+}
+
+@keyframes cartSway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cartIcon {
+    animation: none;
+  }
 }
 
 .popText {
@@ -372,12 +345,28 @@
   top: 8px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.8rem;
   font-weight: 800;
   color: var(--gold);
   text-shadow: 0 0 8px rgba(240, 193, 75, 0.7);
   pointer-events: none;
-  animation: popFade 0.42s ease-out;
+  animation: popFade 0.48s ease-out;
+  white-space: nowrap;
+}
+
+.popTextBonus {
+  font-size: 0.9rem;
+  color: var(--gold-soft);
+}
+
+.popImg {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 @keyframes popFade {
@@ -389,6 +378,31 @@
     opacity: 1;
     transform: translate(-50%, 0);
   }
+}
+
+/* ---- compact rules/controls banner shown below the play field, matching
+   the reference's below-arena instructions but in our own card style. ---- */
+.rulesBanner {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(240, 193, 75, 0.06);
+  border: 1px solid rgba(240, 193, 75, 0.25);
+  color: var(--gold-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.rulesHint {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .resultProgress {

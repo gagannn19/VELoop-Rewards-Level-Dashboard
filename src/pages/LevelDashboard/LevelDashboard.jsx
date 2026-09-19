@@ -14,6 +14,7 @@ import {
   ErrorState,
 } from "../../components/StateViews/StateViews.jsx";
 import { useLevelData } from "../../hooks/useLevelData.js";
+import { useCenterHighlight } from "../../hooks/useCenterHighlight.js";
 import { todaysBoost } from "../../data/levelData.js";
 import styles from "./LevelDashboard.module.css";
 
@@ -53,6 +54,8 @@ function LevelDashboard() {
   const playAndEarnRef = useRef(null);
   const earnRef = useRef(null);
   const rewardsRef = useRef(null);
+
+  useCenterHighlight(Boolean(progress));
 
   // initialize local progress state once the simulated fetch resolves
   useEffect(() => {

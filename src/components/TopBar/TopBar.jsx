@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Bell, Menu, X } from "lucide-react";
+import { Bell, Menu, Moon, Sun, X } from "lucide-react";
 import { NAV_ITEMS } from "../navConfig.js";
+import { useTheme } from "../../hooks/useTheme.js";
 import styles from "./TopBar.module.css";
 
 function getGreeting() {
@@ -37,6 +38,7 @@ function TopBar({ activity = [], onNavigate }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
   const wrapRef = useRef(null);
+  const { theme, toggleTheme } = useTheme();
 
   const recent = activity.filter((a) => a.time === "Just now");
   const unread = recent.length;
@@ -95,6 +97,15 @@ function TopBar({ activity = [], onNavigate }) {
             Level up your journey and unlock epic rewards every day.
           </p>
         </div>
+
+        <button
+          type="button"
+          className={styles.iconBtn}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          onClick={toggleTheme}
+        >
+          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
 
         <div className={styles.bellWrap}>
           <button

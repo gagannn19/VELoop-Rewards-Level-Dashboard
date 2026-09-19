@@ -17,6 +17,7 @@ function NextLevelReward({ nextLevel, reward, progressPct }) {
       className={`${styles.card} premiumCard`}
       onMouseEnter={() => setRevealed(true)}
       onFocus={() => setRevealed(true)}
+      onClick={() => setRevealed(true)}
     >
       <div className={styles.header}>
         <span className={styles.title}>

@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Timer } from "lucide-react";
+import { ShoppingCart, Timer } from "lucide-react";
 import { gameConfig } from "../../../data/levelData.js";
+import gemImg from "../../../assets/single_gem.jpeg";
+import coinImg from "../../../assets/single_VEs.jpeg";
+import multiGemImg from "../../../assets/multi_gems.jpeg";
+import multiCoinImg from "../../../assets/multi_VEs.jpeg";
+import starImg from "../../../assets/star-3d.png";
 import styles from "../Game.module.css";
 
-const HOOP_WIDTH_PCT = 15; // catch band width, matches the hoop's visual footprint
-const ITEM_SPEED_PCT_PER_TICK = 1.5;
-const TICK_MS = 30;
-const SPAWN_MS = 600;
+const CART_WIDTH_PCT = 19; // catch band width, matches the cart's visual footprint
+const ITEM_SPEED_PCT_PER_MS = 0.038;
+const SPAWN_MS = 650;
 
 const ITEM_DISPLAY = {
-  xp: { className: "itemXp", glyph: "XP" },
-  gem: { className: "itemGem", glyph: "◆" },
-  coin: { className: "itemCoin", glyph: "V" },
+  xp: { img: starImg, multiImg: starImg, label: "XP", zoomClass: "itemImgXp" },
+  gem: { img: gemImg, multiImg: multiGemImg, label: "Gem", zoomClass: "itemImgGem" },
+  coin: { img: coinImg, multiImg: multiCoinImg, label: "VE", zoomClass: "itemImgCoin" },
 };
 
 /** Weighted random pick from gameConfig.itemTypes. */
@@ -26,22 +30,28 @@ function pickItemType() {
 }
 
 /**
- * Functional mini-game: guide the golden hoop to catch falling XP orbs,
- * Gems, and VE coins for `durationSeconds`, then report the run's totals
- * back to the parent. A rare multiplier doubles a single catch's reward.
+ * Functional mini-game: guide the golden shopping cart to catch falling
+ * XP orbs, Gems, and VE coins for `durationSeconds`, then report the
+ * run's totals back to the parent. A rare multiplier doubles a single
+ * catch's reward. Runs on requestAnimationFrame (delta-time driven, not
+ * a fixed setInterval tick) so motion stays smooth regardless of the
+ * device's actual frame rate.
  */
 function GamePlay({ durationSeconds, onFinish }) {
   const arenaRef = useRef(null);
   const itemsRef = useRef([]);
   const nextIdRef = useRef(1);
-  const hoopXRef = useRef(50);
+  const cartXRef = useRef(50);
   const totalsRef = useRef({ score: 0, xp: 0, gems: 0, ves: 0 });
+  const rafRef = useRef(null);
+  const lastTsRef = useRef(null);
+  const spawnAccRef = useRef(0);
 
-  const [hoopX, setHoopX] = useState(50);
+  const [cartX, setCartX] = useState(50);
   const [items, setItems] = useState([]);
   const [totals, setTotals] = useState({ score: 0, xp: 0, gems: 0, ves: 0 });
   const [timeLeft, setTimeLeft] = useState(durationSeconds);
-  const [popText, setPopText] = useState(null);
+  const [pop, setPop] = useState(null);
 
   const finish = useCallback(() => {
     onFinish(totalsRef.current);
@@ -58,26 +68,32 @@ function GamePlay({ durationSeconds, onFinish }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft]);
 
-  // spawn + fall loop
+  // spawn + fall loop, driven by requestAnimationFrame for smooth motion
   useEffect(() => {
-    const spawn = setInterval(() => {
-      const type = pickItemType();
-      itemsRef.current = [
-        ...itemsRef.current,
-        { id: nextIdRef.current++, x: 10 + Math.random() * 80, y: -5, typeKey: type.key },
-      ];
-    }, SPAWN_MS);
+    const step = (ts) => {
+      if (lastTsRef.current === null) lastTsRef.current = ts;
+      const dt = Math.min(48, ts - lastTsRef.current); // clamp so a stalled tab can't "jump"
+      lastTsRef.current = ts;
 
-    const tick = setInterval(() => {
+      spawnAccRef.current += dt;
+      while (spawnAccRef.current >= SPAWN_MS) {
+        spawnAccRef.current -= SPAWN_MS;
+        const type = pickItemType();
+        itemsRef.current = [
+          ...itemsRef.current,
+          { id: nextIdRef.current++, x: 10 + Math.random() * 80, y: -5, typeKey: type.key },
+        ];
+      }
+
       const next = [];
       let gained = null;
 
       for (const item of itemsRef.current) {
-        const y = item.y + ITEM_SPEED_PCT_PER_TICK;
-        const inHoopBand = y >= 80 && y <= 94;
-        const inHoopX = Math.abs(item.x - hoopXRef.current) < HOOP_WIDTH_PCT / 2;
+        const y = item.y + ITEM_SPEED_PCT_PER_MS * dt;
+        const inCartBand = y >= 80 && y <= 94;
+        const inCartX = Math.abs(item.x - cartXRef.current) < CART_WIDTH_PCT / 2;
 
-        if (inHoopBand && inHoopX) {
+        if (inCartBand && inCartX) {
           const type = gameConfig.itemTypes.find((t) => t.key === item.typeKey);
           const isMultiplier = Math.random() < gameConfig.multiplierChance;
           const mult = isMultiplier ? gameConfig.multiplierValue : 1;
@@ -88,7 +104,7 @@ function GamePlay({ durationSeconds, onFinish }) {
             gems: totalsRef.current.gems + (type.gems || 0) * mult,
             ves: totalsRef.current.ves + (type.ves || 0) * mult,
           };
-          gained = { label: ITEM_DISPLAY[type.key].glyph, mult };
+          gained = { typeKey: type.key, mult };
           continue; // caught, remove from field
         }
         if (y < 104) next.push({ ...item, y });
@@ -98,46 +114,49 @@ function GamePlay({ durationSeconds, onFinish }) {
       setItems(next);
       if (gained) {
         setTotals({ ...totalsRef.current });
-        setPopText(gained.mult > 1 ? `2x BONUS!` : `+${gained.label}`);
-        setTimeout(() => setPopText(null), 420);
+        setPop(gained);
+        setTimeout(() => setPop(null), 480);
       }
-    }, TICK_MS);
 
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
     return () => {
-      clearInterval(spawn);
-      clearInterval(tick);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTsRef.current = null;
     };
   }, []);
 
-  const moveHoopTo = useCallback((clientX) => {
+  const moveCartTo = useCallback((clientX) => {
     const arena = arenaRef.current;
     if (!arena) return;
     const rect = arena.getBoundingClientRect();
     const pct = ((clientX - rect.left) / rect.width) * 100;
     const clamped = Math.min(94, Math.max(6, pct));
-    hoopXRef.current = clamped;
-    setHoopX(clamped);
+    cartXRef.current = clamped;
+    setCartX(clamped);
   }, []);
 
-  const handlePointerMove = (e) => moveHoopTo(e.clientX);
+  const handlePointerMove = (e) => moveCartTo(e.clientX);
   const handleTouchMove = (e) => {
-    if (e.touches && e.touches[0]) moveHoopTo(e.touches[0].clientX);
+    if (e.touches && e.touches[0]) moveCartTo(e.touches[0].clientX);
   };
   const handleKeyDown = (e) => {
     if (e.key === "ArrowLeft") {
-      hoopXRef.current = Math.max(6, hoopXRef.current - 6);
-      setHoopX(hoopXRef.current);
+      cartXRef.current = Math.max(6, cartXRef.current - 6);
+      setCartX(cartXRef.current);
     }
     if (e.key === "ArrowRight") {
-      hoopXRef.current = Math.min(94, hoopXRef.current + 6);
-      setHoopX(hoopXRef.current);
+      cartXRef.current = Math.min(94, cartXRef.current + 6);
+      setCartX(cartXRef.current);
     }
   };
 
   const coinType = gameConfig.itemTypes.find((t) => t.key === "coin");
 
   return (
-    <div>
+    <div className={styles.playRoot}>
       <div className={styles.playHeader}>
         <span className={styles.playEyebrow}>{gameConfig.name.toUpperCase()}</span>
         <span className={`${styles.timerPill} ${timeLeft <= 5 ? styles.timerBad : ""}`}>
@@ -153,25 +172,41 @@ function GamePlay({ durationSeconds, onFinish }) {
         onTouchMove={handleTouchMove}
         tabIndex={0}
         role="application"
-        aria-label="XP Catcher play area. Use arrow keys or drag to move the hoop."
+        aria-label="XP Catcher play area. Use arrow keys or drag to move the cart."
         onKeyDown={handleKeyDown}
       >
-        {popText && <div className={styles.popText}>{popText}</div>}
+        {pop && (
+          <div className={`${styles.popText} ${pop.mult > 1 ? styles.popTextBonus : ""}`}>
+            {pop.mult > 1 ? (
+              <img src={ITEM_DISPLAY[pop.typeKey].multiImg} alt="" className={styles.popImg} />
+            ) : null}
+            {pop.mult > 1 ? "2x BONUS!" : `+${ITEM_DISPLAY[pop.typeKey].label}`}
+          </div>
+        )}
 
         {items.map((it) => (
           <div
             key={it.id}
-            className={`${styles.fallingItem} ${styles[ITEM_DISPLAY[it.typeKey].className]}`}
+            className={styles.fallingItem}
             style={{ left: `${it.x}%`, top: `${it.y}%` }}
           >
-            {ITEM_DISPLAY[it.typeKey].glyph}
+            <img
+              src={ITEM_DISPLAY[it.typeKey].img}
+              alt=""
+              className={`${styles.fallingItemImg} ${styles[ITEM_DISPLAY[it.typeKey].zoomClass]}`}
+            />
           </div>
         ))}
 
-        <div className={styles.hoop} style={{ left: `${hoopX}%` }}>
-          <span className={styles.hoopRing} />
-          <span className={styles.hoopNet} />
+        <div className={styles.cart} style={{ left: `${cartX}%` }}>
+          <span className={styles.cartGlow} aria-hidden="true" />
+          <ShoppingCart className={styles.cartIcon} size={48} strokeWidth={2.2} />
         </div>
+      </div>
+
+      <div className={styles.rulesBanner}>
+        Catch the coins, gems &amp; XP orbs — score high for better rewards!
+        <span className={styles.rulesHint}>← → arrow keys or drag to move the cart</span>
       </div>
 
       <div className={styles.scorePanel}>

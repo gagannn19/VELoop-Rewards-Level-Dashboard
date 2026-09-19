@@ -1,9 +1,9 @@
 .card {
-  background: #000000;
-  border: 1px solid rgba(240, 193, 75, 0.4);
+  background: var(--bg);
+  border: 1px solid rgba(240, 193, 75, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  padding: 22px;
+  padding: 18px;
 }
 
 .headerRow {

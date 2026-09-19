@@ -2,6 +2,7 @@ import { useState } from "react";
 import GameStart from "../GameStart/GameStart.jsx";
 import GamePlay from "../GamePlay/GamePlay.jsx";
 import GameResult from "../GameResult/GameResult.jsx";
+import GameFullscreen from "../GameFullscreen/GameFullscreen.jsx";
 import { gameConfig } from "../../../data/levelData.js";
 
 /**
@@ -50,16 +51,20 @@ function GameContainer({ onReward, onBack, progress, bestScore = 0 }) {
       )}
 
       {phase === "playing" && (
-        <GamePlay durationSeconds={gameConfig.durationSeconds} onFinish={handleFinish} />
+        <GameFullscreen onClose={handleBack}>
+          <GamePlay durationSeconds={gameConfig.durationSeconds} onFinish={handleFinish} />
+        </GameFullscreen>
       )}
 
       {phase === "result" && lastRun && (
-        <GameResult
-          run={lastRun}
-          progress={progress}
-          onPlayAgain={() => setPhase("start")}
-          onBack={onBack ? handleBack : undefined}
-        />
+        <GameFullscreen onClose={handleBack}>
+          <GameResult
+            run={lastRun}
+            progress={progress}
+            onPlayAgain={() => setPhase("playing")}
+            onBack={handleBack}
+          />
+        </GameFullscreen>
       )}
     </>
   );
