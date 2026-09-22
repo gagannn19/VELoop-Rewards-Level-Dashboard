@@ -1,21 +1,22 @@
+import { getBadgeSrc } from "../../assets/badges/index.js";
 import styles from "./CurrentLevel.module.css";
 
-/** The prominent hexagonal "Level 04" badge shown at the top of the dashboard. */
-function CurrentLevel({ level, name }) {
+/** Winged level badge + XP total, shown at the top of the reward card. */
+function CurrentLevel({ level, name, currentXP }) {
   return (
-    <div className={styles.badge}>
-      <div className={styles.hexStage}>
-        <div className={styles.hex}>
-          <div className={styles.hexInner}>
-            <span className="lightSweep" aria-hidden="true" />
-            <span className={styles.hexLabel}>LEVEL</span>
-            <span className={styles.hexValue}>{String(level).padStart(2, "0")}</span>
-          </div>
-        </div>
+    <div className={styles.row}>
+      <div className={styles.badgeStage}>
+        <img
+          className={`${styles.badge} badge3d`}
+          src={getBadgeSrc(level)}
+          alt={`Level ${String(level).padStart(2, "0")} badge`}
+        />
       </div>
-      <div>
-        <div className={styles.label}>Current Level</div>
-        <div className={styles.name}>{name}</div>
+      <div className={styles.textCol}>
+        <span className={styles.name}>
+          Level {String(level).padStart(2, "0")} · {name}
+        </span>
+        <span className={styles.xp}>{currentXP.toLocaleString()}XP</span>
       </div>
     </div>
   );

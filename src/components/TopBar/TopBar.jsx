@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Bell, Menu, Moon, Sun, X } from "lucide-react";
+import { Bell, Menu, Volume2, VolumeX, X } from "lucide-react";
 import { NAV_ITEMS } from "../navConfig.js";
-import { useTheme } from "../../hooks/useTheme.js";
+import { isSoundMuted, setSoundMuted, playClick } from "../../utils/audio.js";
 import styles from "./TopBar.module.css";
 
 function getGreeting() {
@@ -9,23 +9,6 @@ function getGreeting() {
   if (hour < 12) return "Good Morning";
   if (hour < 18) return "Good Afternoon";
   return "Good Evening";
-}
-
-/**
- * Splits text into per-letter spans that inflate in on a stagger (each
- * letter balloons up past full size, then settles) — used for "VELooper"
- * only.
- */
-function InflateLetters({ text }) {
-  return Array.from(text).map((char, i) => (
-    <span
-      key={i}
-      className={styles.inflateLetter}
-      style={{ animationDelay: `${i * 0.06}s` }}
-    >
-      {char === " " ? " " : char}
-    </span>
-  ));
 }
 
 /**
@@ -37,8 +20,8 @@ function InflateLetters({ text }) {
 function TopBar({ activity = [], onNavigate }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
+  const [muted, setMuted] = useState(() => isSoundMuted());
   const wrapRef = useRef(null);
-  const { theme, toggleTheme } = useTheme();
 
   const recent = activity.filter((a) => a.time === "Just now");
   const unread = recent.length;
@@ -64,8 +47,16 @@ function TopBar({ activity = [], onNavigate }) {
   }, []);
 
   const handleNav = (key) => {
+    playClick();
     setDrawerOpen(false);
     onNavigate?.(key);
+  };
+
+  const toggleMuted = () => {
+    const next = !muted;
+    setMuted(next);
+    setSoundMuted(next);
+    if (!next) playClick();
   };
 
   return (
@@ -76,22 +67,18 @@ function TopBar({ activity = [], onNavigate }) {
           className={styles.iconBtn}
           aria-label="Open menu"
           aria-expanded={drawerOpen}
-          onClick={() => setDrawerOpen((o) => !o)}
+          onClick={() => {
+            playClick();
+            setDrawerOpen((o) => !o);
+          }}
         >
-          <Menu size={20} />
+          <Menu size={19} />
         </button>
 
         <div className={styles.greeting}>
-          <h1 className={styles.greetingTitle} aria-label={`${getGreeting()}, VELooper! 👋`}>
-            <span aria-hidden="true">
-              <span className={styles.greetingWord}>{getGreeting()}, </span>
-              <span className={styles.velooperWord}>
-                <InflateLetters text="VELooper!" />
-              </span>
-            </span>{" "}
-            <span className={styles.wave} aria-hidden="true">
-              👋
-            </span>
+          <h1 className={styles.greetingTitle}>
+            <span className={styles.greetingWord}>{getGreeting()},</span>{" "}
+            <span className={styles.velooperWord}>VELooper</span>
           </h1>
           <p className={styles.greetingSub}>
             Level up your journey and unlock epic rewards every day.
@@ -101,10 +88,10 @@ function TopBar({ activity = [], onNavigate }) {
         <button
           type="button"
           className={styles.iconBtn}
-          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          onClick={toggleTheme}
+          aria-label={muted ? "Unmute sound" : "Mute sound"}
+          onClick={toggleMuted}
         >
-          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          {muted ? <VolumeX size={17} /> : <Volume2 size={17} />}
         </button>
 
         <div className={styles.bellWrap}>
@@ -113,9 +100,12 @@ function TopBar({ activity = [], onNavigate }) {
             className={styles.iconBtn}
             aria-label={`Notifications${unread ? `, ${unread} new` : ""}`}
             aria-expanded={bellOpen}
-            onClick={() => setBellOpen((o) => !o)}
+            onClick={() => {
+              playClick();
+              setBellOpen((o) => !o);
+            }}
           >
-            <Bell size={20} />
+            <Bell size={19} />
             {unread > 0 && <span className={styles.badge}>{unread > 9 ? "9+" : unread}</span>}
           </button>
 

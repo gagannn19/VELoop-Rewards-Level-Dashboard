@@ -1,6 +1,6 @@
 .card {
-  background: var(--bg);
-  border: 1px solid rgba(240, 193, 75, 0.22);
+  background: var(--surface);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 18px;
@@ -8,6 +8,10 @@
 }
 
 .headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 14px;
 }
 
@@ -23,12 +27,42 @@
   color: var(--text-secondary);
 }
 
+.arrowRow {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.arrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.arrowBtn:hover {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--text-primary);
+}
+
+.arrowBtn:active {
+  transform: scale(0.92);
+}
+
 .track {
   display: flex;
   gap: 18px;
   overflow-x: auto;
   overflow-y: visible;
-  padding-top: 14px;
+  scroll-behavior: smooth;
+  padding-top: 30px;
   padding-bottom: 8px;
   scroll-snap-type: x proximity;
 }
@@ -38,7 +72,7 @@
 }
 
 .step {
-  flex: 0 0 130px;
+  flex: 0 0 118px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -52,170 +86,35 @@
   border: 1px solid var(--border);
 }
 
-.badge {
+.badgeStage {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  height: 74px;
   margin-bottom: 4px;
+  perspective: 500px;
 }
 
-.node {
-  width: 44px;
-  height: 44px;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  padding: 2.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-}
-
-/* ---- feathered wings flanking each roadmap badge — an SVG feather fan
-   (see LevelRoadmap.jsx Wing), one tinted pair per level. The badge's
-   near-body root is always gold; only the tip hue changes per level. ---- */
-.wing {
-  position: absolute;
-  top: 50%;
-  width: 44px;
-  height: 44px;
-  overflow: visible;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
-  animation-duration: 3.4s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-.wing.wingLeft {
-  right: 100%;
-  animation-name: wingFlutterLeft;
-}
-
-.wing.wingRight {
-  left: 100%;
-  animation-name: wingFlutterRight;
-}
-
-@keyframes wingFlutterLeft {
-  0%,
-  100% {
-    transform: translateY(-90%) scaleX(-1) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-90%) scaleX(-1) rotate(-6deg);
-  }
-}
-
-@keyframes wingFlutterRight {
-  0%,
-  100% {
-    transform: translateY(-90%) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-90%) rotate(6deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wing {
-    animation: none;
-  }
-}
-
-.nodeInner {
-  width: 100%;
+.badge {
   height: 100%;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.95rem;
+  width: auto;
+  transition: filter 0.2s ease;
 }
 
-.node.completed {
-  background: linear-gradient(
-    155deg,
-    #c3ffe1 0%,
-    var(--subtle-green) 22%,
-    var(--green) 55%,
-    var(--green-strong) 80%,
-    #0e5c34 100%
-  );
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 8px rgba(61, 220, 138, 0.4));
+.badge[data-locked="true"] {
+  filter: grayscale(0.55) opacity(0.6);
+  animation: none;
 }
 
-.node.completed .nodeInner {
-  background:
-    radial-gradient(circle at 50% 26%, rgba(255, 255, 255, 0.3), transparent 60%),
-    linear-gradient(155deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.22));
-  box-shadow:
-    inset 0 2px 3px rgba(255, 255, 255, 0.55),
-    inset 0 -6px 10px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-}
-
-.node.completed .nodeInner svg {
-  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.55));
-}
-
-.node.current {
-  width: 52px;
-  height: 52px;
-  background: linear-gradient(
-    155deg,
-    #fff3cc 0%,
-    var(--gold-soft) 16%,
-    var(--gold) 46%,
-    var(--gold-strong) 74%,
-    #6b4f0e 100%
-  );
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  animation: nodePulseGold3d 2.8s ease-in-out infinite;
-}
-
-.node.current .nodeInner {
-  background:
-    radial-gradient(circle at 50% 26%, rgba(255, 255, 255, 0.35), transparent 60%),
-    linear-gradient(155deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.2));
-  box-shadow:
-    inset 0 2px 3px rgba(255, 255, 255, 0.6),
-    inset 0 -6px 10px rgba(0, 0, 0, 0.4),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  color: #241a02;
-  font-size: 1.1rem;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
-}
-
-@keyframes nodePulseGold3d {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 10px rgba(240, 193, 75, 0.55));
-  }
-  50% {
-    transform: translateY(-5px) scale(1.16);
-    filter: drop-shadow(0 9px 14px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 30px rgba(240, 193, 75, 1));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .node.current {
-    animation: none;
-  }
-}
-
-.node.locked {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.node.locked .nodeInner {
-  color: var(--text-muted);
+.lock {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+  width: 18px;
+  height: auto;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6));
 }
 
 .levelLabel {
@@ -233,12 +132,17 @@
 
 .hereTag {
   position: absolute;
-  top: -10px;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
   background: var(--gold);
-  color: #1c1400;
+  color: #ffffff;
   font-size: 0.62rem;
   font-weight: 800;
   text-transform: uppercase;
-  padding: 2px 8px;
+  white-space: nowrap;
+  padding: 3px 9px;
   border-radius: 999px;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  z-index: 1;
 }

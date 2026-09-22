@@ -3,7 +3,7 @@
   align-items: center;
   gap: 6px;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--coin-gold);
   background: rgba(240, 193, 75, 0.1);
   border: 1px solid rgba(240, 193, 75, 0.25);
   padding: 4px 10px;

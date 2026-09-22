@@ -8,6 +8,7 @@ import {
   Search,
   Users,
 } from "lucide-react";
+import { playClick } from "../../utils/audio.js";
 import styles from "./EarnMoreXP.module.css";
 
 const ICONS = {
@@ -54,7 +55,10 @@ function EarnMoreXP({ features, onQuickEarn }) {
               type="button"
               className={`${styles.row} ${isComingSoon ? styles.soon : ""}`}
               disabled={isComingSoon}
-              onClick={() => onQuickEarn(f)}
+              onClick={() => {
+                playClick();
+                onQuickEarn(f);
+              }}
             >
               <span className={`${styles.iconWrap} ${styles[accent]}`}>
                 <Icon size={20} />

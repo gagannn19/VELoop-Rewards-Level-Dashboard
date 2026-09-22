@@ -54,6 +54,7 @@ function LevelDashboard() {
   const playAndEarnRef = useRef(null);
   const earnRef = useRef(null);
   const rewardsRef = useRef(null);
+  const activityRef = useRef(null);
 
   useCenterHighlight(Boolean(progress));
 
@@ -205,13 +206,33 @@ function LevelDashboard() {
     <div className="container-page">
       <TopBar activity={activity} onNavigate={handleNavigate} />
 
-      <LevelHero
-        level={progress.level}
-        levelName={progress.levelName}
-        currentXP={progress.xp}
-        requiredXP={progress.requiredXP}
-        boost={todaysBoost}
-      />
+      <div className={styles.gridHero}>
+        <LevelHero
+          level={progress.level}
+          levelName={progress.levelName}
+          currentXP={progress.xp}
+          requiredXP={progress.requiredXP}
+          nextLevel={progress.nextLevel}
+          boost={todaysBoost}
+          onViewActivity={() =>
+            activityRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+          }
+        />
+
+        <div ref={playAndEarnRef} className={styles.playAndEarnCol}>
+          <PlayAndEarn
+            onReward={handleGameReward}
+            onBack={handleBackToTop}
+            bestScore={bestScore}
+            progress={{
+              currentXP: progress.xp,
+              requiredXP: progress.requiredXP,
+              levelName: progress.levelName,
+              nextLevelName: progress.nextLevelName,
+            }}
+          />
+        </div>
+      </div>
 
       <div className={styles.gridTwo}>
         <LevelRoadmap roadmap={data.roadmap} currentLevel={progress.level} />
@@ -224,26 +245,13 @@ function LevelDashboard() {
         </div>
       </div>
 
-      <div ref={playAndEarnRef} className={styles.section}>
-        <PlayAndEarn
-          onReward={handleGameReward}
-          onBack={handleBackToTop}
-          bestScore={bestScore}
-          progress={{
-            currentXP: progress.xp,
-            requiredXP: progress.requiredXP,
-            levelName: progress.levelName,
-            nextLevelName: progress.nextLevelName,
-          }}
-        />
-      </div>
-
-      <div ref={earnRef} className={styles.section}>
-        <EarnMoreXP features={data.earningFeatures} onQuickEarn={handleQuickEarn} />
-      </div>
-
-      <div className={styles.section}>
-        <XPActivity activity={activity} />
+      <div className={styles.gridTwoEven}>
+        <div ref={earnRef}>
+          <EarnMoreXP features={data.earningFeatures} onQuickEarn={handleQuickEarn} />
+        </div>
+        <div ref={activityRef}>
+          <XPActivity activity={activity} />
+        </div>
       </div>
 
       {pendingLevelUp && (

@@ -1,4 +1,5 @@
 import { NAV_ITEMS } from "../navConfig.js";
+import { playClick } from "../../utils/audio.js";
 import styles from "./BottomNav.module.css";
 
 /**
@@ -18,7 +19,10 @@ function BottomNav({ activeKey = "home", onNavigate }) {
             type="button"
             className={`${styles.item} ${active ? styles.active : ""}`}
             aria-current={active ? "page" : undefined}
-            onClick={() => onNavigate?.(key)}
+            onClick={() => {
+              playClick();
+              onNavigate?.(key);
+            }}
           >
             <Icon size={20} strokeWidth={active ? 2.4 : 2} />
             <span>{label}</span>

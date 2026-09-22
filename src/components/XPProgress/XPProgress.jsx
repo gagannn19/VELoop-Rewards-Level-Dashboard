@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./XPProgress.module.css";
 
 /** Animated XP bar: fills from 0 to the real percentage on mount/update. */
-function XPProgress({ currentXP, requiredXP }) {
+function XPProgress({ currentXP, requiredXP, nextLevel, onViewActivity }) {
   const targetPct = Math.min(100, Math.round((currentXP / requiredXP) * 100));
   const [pct, setPct] = useState(0);
   const remaining = Math.max(0, requiredXP - currentXP);
@@ -14,12 +14,12 @@ function XPProgress({ currentXP, requiredXP }) {
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.numbers}>
-        <span className={styles.current}>{currentXP.toLocaleString()}</span>
-        <span className={styles.divider}>/</span>
-        <span className={styles.required}>
-          {requiredXP.toLocaleString()} XP
-        </span>
+      <div
+        className={styles.tick}
+        style={{ left: `clamp(18px, ${pct}%, calc(100% - 18px))` }}
+      >
+        <span>{pct}%</span>
+        <div className={styles.tickArrow} />
       </div>
 
       <div
@@ -32,10 +32,17 @@ function XPProgress({ currentXP, requiredXP }) {
         <div className={styles.fill} style={{ width: `${pct}%` }} />
       </div>
 
-      <div className={styles.remaining}>
-        {remaining > 0
-          ? `${remaining.toLocaleString()} XP remaining`
-          : "Ready to level up!"}
+      <div className={styles.footerRow}>
+        <span className={styles.remaining}>
+          {remaining > 0
+            ? `${remaining.toLocaleString()} XP needed for level ${String(nextLevel).padStart(2, "0")}`
+            : "Ready to level up!"}
+        </span>
+        {onViewActivity && (
+          <button type="button" className={styles.activityLink} onClick={onViewActivity}>
+            View Activity ›
+          </button>
+        )}
       </div>
     </div>
   );

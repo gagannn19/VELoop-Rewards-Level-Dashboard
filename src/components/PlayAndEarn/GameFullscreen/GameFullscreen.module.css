@@ -3,7 +3,7 @@
   inset: 0;
   z-index: 200;
   background: radial-gradient(circle at 20% 0%, rgba(155, 107, 242, 0.12), transparent 55%),
-    radial-gradient(circle at 80% 0%, rgba(240, 193, 75, 0.1), transparent 55%), var(--bg);
+    radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.1), transparent 55%), var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;

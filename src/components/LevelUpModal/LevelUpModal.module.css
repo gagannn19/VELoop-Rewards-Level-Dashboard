@@ -15,7 +15,7 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(165deg, var(--surface-3), var(--surface));
-  border: 1px solid rgba(240, 193, 75, 0.35);
+  border: 1px solid rgba(139, 92, 246, 0.35);
   border-radius: var(--radius-lg);
   padding: 32px 28px;
   max-width: 380px;
@@ -31,7 +31,7 @@
   font-weight: 900;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  background: linear-gradient(90deg, var(--gold-soft), var(--gold-strong));
+  background: var(--gradient-gold-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -66,7 +66,7 @@
   width: 104px;
   height: 104px;
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  background: linear-gradient(155deg, var(--gold-soft), var(--gold-strong) 60%, #8a6a12);
+  background: linear-gradient(155deg, var(--coin-gold-soft), var(--coin-gold-strong) 60%, #8a6a12);
   padding: 4px;
   filter: drop-shadow(0 0 20px rgba(240, 193, 75, 0.55));
 }
@@ -82,7 +82,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: var(--gold);
+  color: var(--coin-gold);
 }
 
 .hexLabel {
@@ -156,7 +156,7 @@
   overflow: hidden;
   width: 100%;
   background: linear-gradient(90deg, var(--gold-strong), var(--gold));
-  color: #201700;
+  color: #ffffff;
   font-weight: 800;
   border: none;
   padding: 12px;

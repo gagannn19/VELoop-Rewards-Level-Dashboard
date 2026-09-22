@@ -1,6 +1,6 @@
 .card {
-  background: var(--bg);
-  border: 1px solid rgba(240, 193, 75, 0.22);
+  background: var(--surface);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 18px;
@@ -46,8 +46,8 @@
 
 .row:hover:not(:disabled) {
   transform: translateY(-2px);
-  border-color: rgba(240, 193, 75, 0.4);
-  background: rgba(240, 193, 75, 0.05);
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.05);
 }
 
 .row:active:not(:disabled) {
@@ -91,7 +91,7 @@
 
 .iconWrap.gold {
   background: rgba(240, 193, 75, 0.15);
-  color: var(--gold);
+  color: var(--coin-gold);
 }
 
 .iconWrap.muted {
@@ -135,7 +135,7 @@
 .xp {
   font-size: 0.82rem;
   font-weight: 800;
-  color: var(--gold);
+  color: var(--coin-gold);
   white-space: nowrap;
 }
 

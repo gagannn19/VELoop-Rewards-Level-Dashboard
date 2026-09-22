@@ -3,6 +3,26 @@
   min-width: 0;
 }
 
+.gridHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.gridHero > * {
+  min-width: 0;
+}
+
+.playAndEarnCol {
+  display: flex;
+  min-width: 0;
+}
+
+.playAndEarnCol > * {
+  flex: 1;
+}
+
 .gridTwo {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -26,6 +46,11 @@
 }
 
 @media (min-width: 992px) {
+  .gridHero {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
   .gridTwo {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     align-items: stretch;

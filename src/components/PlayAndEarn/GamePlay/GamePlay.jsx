@@ -6,6 +6,7 @@ import coinImg from "../../../assets/single_VEs.jpeg";
 import multiGemImg from "../../../assets/multi_gems.jpeg";
 import multiCoinImg from "../../../assets/multi_VEs.jpeg";
 import starImg from "../../../assets/star-3d.png";
+import { startGameMusic, stopGameMusic, playCatch, playMultiplier, playGameOver } from "../../../utils/audio.js";
 import styles from "../Game.module.css";
 
 const CART_WIDTH_PCT = 19; // catch band width, matches the cart's visual footprint
@@ -54,8 +55,15 @@ function GamePlay({ durationSeconds, onFinish }) {
   const [pop, setPop] = useState(null);
 
   const finish = useCallback(() => {
+    playGameOver();
     onFinish(totalsRef.current);
   }, [onFinish]);
+
+  // background piano loop plays for the duration of the round only
+  useEffect(() => {
+    startGameMusic();
+    return () => stopGameMusic();
+  }, []);
 
   // countdown
   useEffect(() => {
@@ -115,6 +123,8 @@ function GamePlay({ durationSeconds, onFinish }) {
       if (gained) {
         setTotals({ ...totalsRef.current });
         setPop(gained);
+        if (gained.mult > 1) playMultiplier();
+        else playCatch(gained.typeKey);
         setTimeout(() => setPop(null), 480);
       }
 

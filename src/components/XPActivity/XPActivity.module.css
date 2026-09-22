@@ -1,6 +1,6 @@
 .card {
-  background: var(--bg);
-  border: 1px solid rgba(240, 193, 75, 0.22);
+  background: var(--surface);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 18px;
@@ -53,7 +53,7 @@
 
 .iconWrap.gold {
   background: rgba(240, 193, 75, 0.14);
-  color: var(--gold);
+  color: var(--coin-gold);
 }
 
 .iconWrap.purple {
@@ -98,7 +98,7 @@
 
 .amount {
   font-weight: 800;
-  color: var(--gold);
+  color: var(--coin-gold);
   font-size: 0.82rem;
   flex-shrink: 0;
   white-space: nowrap;
@@ -170,7 +170,7 @@
 
 .summaryIcon.gold {
   background: rgba(240, 193, 75, 0.15);
-  color: var(--gold);
+  color: var(--coin-gold);
 }
 
 .summaryText {

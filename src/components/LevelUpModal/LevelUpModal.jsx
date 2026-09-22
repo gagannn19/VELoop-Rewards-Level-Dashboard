@@ -3,6 +3,7 @@ import { Sparkles } from "lucide-react";
 import Confetti from "../Confetti/Confetti.jsx";
 import SparkleField from "../SparkleField/SparkleField.jsx";
 import LevelRewardCard from "../LevelRewardCard/LevelRewardCard.jsx";
+import { playLevelUp, playClick } from "../../utils/audio.js";
 import styles from "./LevelUpModal.module.css";
 
 /**
@@ -16,6 +17,10 @@ function LevelUpModal({ level, levelName, rewards, perks, onContinue }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onContinue]);
+
+  useEffect(() => {
+    playLevelUp();
+  }, []);
 
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true">
@@ -59,7 +64,14 @@ function LevelUpModal({ level, levelName, rewards, perks, onContinue }) {
           </ul>
         )}
 
-        <button type="button" className={styles.continueBtn} onClick={onContinue}>
+        <button
+          type="button"
+          className={styles.continueBtn}
+          onClick={() => {
+            playClick();
+            onContinue();
+          }}
+        >
           <span className="lightSweep" aria-hidden="true" />
           Claim Rewards
         </button>

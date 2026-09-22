@@ -1,13 +1,8 @@
-.wrap {
-  padding-top: 4px;
-  border-top: 1px solid var(--border);
-}
-
 .header {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: 12px 0 10px;
+  margin: 0 0 10px;
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -40,79 +35,11 @@
   height: 34px;
   border-radius: 50%;
   flex-shrink: 0;
-  perspective: 300px;
 }
 
 .iconWrap.purple {
   background: rgba(155, 107, 242, 0.16);
   color: var(--purple);
-}
-
-.icon3d {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-}
-
-.starIcon {
-  animation: iconSpin3d 3.6s ease-in-out infinite;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
-}
-
-.taskIcon {
-  animation: iconPop3d 3.2s ease-in-out infinite;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
-}
-
-.flameIcon {
-  animation: iconFlicker3d 1.7s ease-in-out infinite;
-  filter: drop-shadow(0 2px 4px rgba(255, 90, 30, 0.55));
-}
-
-@keyframes iconSpin3d {
-  0%,
-  100% {
-    transform: rotateY(-24deg) rotateX(8deg) translateY(0);
-  }
-  50% {
-    transform: rotateY(24deg) rotateX(-8deg) translateY(-2px);
-  }
-}
-
-@keyframes iconPop3d {
-  0%,
-  100% {
-    transform: rotateY(-16deg) rotateX(-6deg) scale(1);
-  }
-  50% {
-    transform: rotateY(16deg) rotateX(6deg) scale(1.08);
-  }
-}
-
-@keyframes iconFlicker3d {
-  0%,
-  100% {
-    transform: rotateY(-14deg) scaleY(1) scaleX(1);
-  }
-  25% {
-    transform: rotateY(10deg) scaleY(1.08) scaleX(0.95);
-  }
-  50% {
-    transform: rotateY(-8deg) scaleY(0.96) scaleX(1.05);
-  }
-  75% {
-    transform: rotateY(14deg) scaleY(1.05) scaleX(0.97);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .starIcon,
-  .taskIcon,
-  .flameIcon {
-    animation: none;
-  }
 }
 
 .iconWrap.blue {
@@ -165,9 +92,9 @@
     width: 26px;
     height: 26px;
   }
-  .icon3d {
-    width: 20px;
-    height: 20px;
+  .iconWrap svg {
+    width: 15px;
+    height: 15px;
   }
 }
 

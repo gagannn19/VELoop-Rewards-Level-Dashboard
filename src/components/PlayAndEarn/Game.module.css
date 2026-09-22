@@ -2,111 +2,148 @@
 
 .panel {
   position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 14px;
-  padding: 28px 16px;
-  min-height: 360px;
+  gap: 12px;
+  padding: 34px 20px;
+  height: 100%;
+  min-height: 300px;
   justify-content: center;
+  background:
+    radial-gradient(circle at 18% -10%, rgba(139, 92, 246, 0.18), transparent 55%),
+    radial-gradient(circle at 88% 110%, rgba(139, 92, 246, 0.14), transparent 50%),
+    linear-gradient(180deg, var(--surface-2) 0%, var(--bg-elevated) 100%);
 }
 
-.gameIconRing {
-  width: 64px;
-  height: 64px;
+.coinField {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.driftCoin {
+  position: absolute;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold);
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(240, 193, 75, 0.28),
-    rgba(240, 193, 75, 0.05)
-  );
-  border: 1px solid rgba(240, 193, 75, 0.4);
+  background: radial-gradient(circle at 35% 30%, #fff6c8, var(--coin-gold) 55%, var(--coin-gold-strong) 85%, #8a6a12 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.35);
+  opacity: 0.85;
+  animation-name: coinDrift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
-/* Small preview of the in-game cart (see .cart / .cartIcon below), shown
-   before the round starts so the catch mechanic reads at a glance. */
-.startCart {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 34px;
-  color: var(--gold);
-  filter: drop-shadow(0 0 8px rgba(240, 193, 75, 0.5));
-  animation: cartSway 3.2s ease-in-out infinite;
+@keyframes coinDrift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(180deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .startCart {
+  .driftCoin {
     animation: none;
   }
 }
 
-.heading {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 800;
-  display: inline-flex;
+.gameIconRing {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  letter-spacing: 0.02em;
+  justify-content: center;
+  color: #241a02;
+  background: linear-gradient(155deg, var(--coin-gold-soft), var(--coin-gold-strong) 65%, #8a6a12);
+  box-shadow: 0 0 30px rgba(240, 193, 75, 0.5);
 }
 
-.headingInfo {
-  color: var(--text-muted);
+.heading {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: var(--gradient-gold-text, linear-gradient(90deg, var(--gold-soft), var(--gold-strong)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .desc {
+  position: relative;
+  z-index: 1;
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   max-width: 320px;
 }
 
-.ruleList {
+.ruleChips {
+  position: relative;
+  z-index: 1;
   list-style: none;
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  text-align: left;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
 }
 
-.ruleList li {
-  display: flex;
+.ruleChips li {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .primaryBtn {
   position: relative;
   overflow: hidden;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(90deg, var(--gold-strong), var(--gold));
-  color: #201700;
+  background: linear-gradient(135deg, var(--gold-strong) 0%, var(--gold-soft) 50%, var(--gold-strong) 100%);
+  color: #ffffff;
   font-weight: 800;
+  text-transform: uppercase;
   border: none;
-  padding: 12px 26px;
+  padding: 12px 30px;
   border-radius: 999px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   box-shadow: var(--shadow-glow-gold);
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .primaryBtn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: var(--shadow-glow-gold-strong);
 }
 
 .secondaryBtn {
@@ -151,8 +188,8 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(240, 193, 75, 0.1);
-  border: 1px solid rgba(240, 193, 75, 0.35);
+  background: rgba(139, 92, 246, 0.14);
+  border: 1px solid rgba(139, 92, 246, 0.4);
   color: var(--gold);
   font-weight: 800;
   font-size: 0.8rem;
@@ -177,7 +214,7 @@
       rgba(155, 107, 242, 0.14),
       transparent 55%
     ),
-    radial-gradient(circle at 80% 10%, rgba(240, 193, 75, 0.1), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.12), transparent 55%),
     var(--surface-2);
   border: 1px solid var(--border);
   overflow: hidden;
@@ -208,7 +245,7 @@
 .scoreBigLive {
   font-size: 2.1rem;
   font-weight: 900;
-  color: var(--gold);
+  color: var(--coin-gold);
   line-height: 1.15;
   text-shadow: 0 0 18px rgba(240, 193, 75, 0.4);
 }
@@ -248,7 +285,7 @@
 }
 
 .legendDotGold {
-  background: var(--gold);
+  background: var(--coin-gold);
   box-shadow: 0 0 6px rgba(240, 193, 75, 0.7);
 }
 
@@ -319,7 +356,7 @@
 
 .cartIcon {
   position: relative;
-  color: var(--gold);
+  color: var(--coin-gold);
   filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 10px rgba(240, 193, 75, 0.55));
   animation: cartSway 3.2s ease-in-out infinite;
 }
@@ -350,7 +387,7 @@
   gap: 6px;
   font-size: 0.8rem;
   font-weight: 800;
-  color: var(--gold);
+  color: var(--coin-gold);
   text-shadow: 0 0 8px rgba(240, 193, 75, 0.7);
   pointer-events: none;
   animation: popFade 0.48s ease-out;
@@ -359,7 +396,7 @@
 
 .popTextBonus {
   font-size: 0.9rem;
-  color: var(--gold-soft);
+  color: var(--coin-gold-soft);
 }
 
 .popImg {
@@ -386,8 +423,8 @@
   margin-top: 10px;
   padding: 10px 14px;
   border-radius: var(--radius-md);
-  background: rgba(240, 193, 75, 0.06);
-  border: 1px solid rgba(240, 193, 75, 0.25);
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
   color: var(--gold-soft);
   font-size: 0.78rem;
   font-weight: 700;
@@ -430,7 +467,7 @@
 .resultProgressFill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--gold-strong), var(--gold));
+  background: linear-gradient(90deg, var(--coin-gold-strong), var(--coin-gold));
   transition: width 0.5s ease;
 }
 
@@ -466,9 +503,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(155deg, var(--gold-soft), var(--gold-strong) 65%, #8a6a12);
+  background: linear-gradient(155deg, var(--coin-gold-soft), var(--coin-gold-strong) 65%, #8a6a12);
   color: #241a02;
-  box-shadow: var(--shadow-glow-gold-strong);
+  box-shadow: 0 0 30px rgba(240, 193, 75, 0.45);
 }
 
 .completeHeading {
@@ -476,7 +513,7 @@
   font-size: 1.4rem;
   font-weight: 900;
   letter-spacing: 0.01em;
-  background: linear-gradient(90deg, var(--gold-soft), var(--gold-strong));
+  background: var(--gradient-gold-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -505,7 +542,7 @@
   font-size: 0.7rem;
   font-weight: 800;
   color: #241a02;
-  background: linear-gradient(90deg, var(--gold-strong), var(--gold));
+  background: linear-gradient(90deg, var(--coin-gold-strong), var(--coin-gold));
   padding: 3px 10px;
   border-radius: 999px;
   margin-top: 2px;
@@ -514,7 +551,7 @@
 .scoreBig {
   font-size: 2.4rem;
   font-weight: 900;
-  color: var(--gold);
+  color: var(--coin-gold);
   line-height: 1;
 }
 

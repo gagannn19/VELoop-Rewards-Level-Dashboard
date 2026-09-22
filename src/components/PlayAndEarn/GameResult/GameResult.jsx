@@ -2,6 +2,7 @@ import { ArrowLeft, RotateCcw, Star, Trophy } from "lucide-react";
 import Confetti from "../../Confetti/Confetti.jsx";
 import SparkleField from "../../SparkleField/SparkleField.jsx";
 import LevelRewardCard from "../../LevelRewardCard/LevelRewardCard.jsx";
+import { playClick } from "../../../utils/audio.js";
 import styles from "../Game.module.css";
 
 /**
@@ -73,12 +74,26 @@ function GameResult({ run, progress, onPlayAgain, onBack }) {
       )}
 
       <div className={styles.btnRow}>
-        <button type="button" className={styles.primaryBtn} onClick={onPlayAgain}>
+        <button
+          type="button"
+          className={styles.primaryBtn}
+          onClick={() => {
+            playClick();
+            onPlayAgain();
+          }}
+        >
           <span className="lightSweep" aria-hidden="true" />
           <RotateCcw size={16} /> Play Again
         </button>
         {onBack && (
-          <button type="button" className={styles.secondaryBtn} onClick={onBack}>
+          <button
+            type="button"
+            className={styles.secondaryBtn}
+            onClick={() => {
+              playClick();
+              onBack();
+            }}
+          >
             <ArrowLeft size={16} /> Back to Dashboard
           </button>
         )}
