@@ -1,22 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ShoppingCart, Timer } from "lucide-react";
 import { gameConfig } from "../../../data/levelData.js";
-import gemImg from "../../../assets/single_gem.png";
-import coinImg from "../../../assets/single_VEs.png";
-import multiGemImg from "../../../assets/multi_gems.png";
-import multiCoinImg from "../../../assets/multi_VEs.png";
-import starImg from "../../../assets/star-3d.png";
+import gemImg from "../../../assets/game-icons/gem.png";
+import coinImg from "../../../assets/game-icons/coin.png";
+import multiGemImg from "../../../assets/game-icons/gem-multi.png";
+import multiCoinImg from "../../../assets/game-icons/coin-multi.png";
+import starImg from "../../../assets/game-icons/star.png";
 import { startGameMusic, stopGameMusic, playCatch, playMultiplier, playGameOver } from "../../../utils/audio.js";
 import styles from "../Game.module.css";
 
-const CART_WIDTH_PCT = 24; // catch band width, matches the cart's visual footprint
+const CART_WIDTH_PCT = 30; // catch band width, matches the cart's visual footprint
 const ITEM_SPEED_PCT_PER_MS = 0.038;
 const SPAWN_MS = 650;
 
+// Source art is pre-normalized to a square, consistently-filled canvas
+// (see src/assets/game-icons) — every falling item renders at the same
+// visual size via a shared container, no per-type zoom hacks needed.
 const ITEM_DISPLAY = {
-  xp: { img: starImg, multiImg: starImg, label: "XP", zoomClass: "itemImgXp" },
-  gem: { img: gemImg, multiImg: multiGemImg, label: "Gem", zoomClass: "itemImgGem" },
-  coin: { img: coinImg, multiImg: multiCoinImg, label: "VE", zoomClass: "itemImgCoin" },
+  xp: { img: starImg, multiImg: starImg, label: "XP" },
+  gem: { img: gemImg, multiImg: multiGemImg, label: "Gem" },
+  coin: { img: coinImg, multiImg: multiCoinImg, label: "VE" },
 };
 
 /** Weighted random pick from gameConfig.itemTypes. */
@@ -200,17 +203,14 @@ function GamePlay({ durationSeconds, onFinish }) {
             className={styles.fallingItem}
             style={{ left: `${it.x}%`, top: `${it.y}%` }}
           >
-            <img
-              src={ITEM_DISPLAY[it.typeKey].img}
-              alt=""
-              className={`${styles.fallingItemImg} ${styles[ITEM_DISPLAY[it.typeKey].zoomClass]}`}
-            />
+            <img src={ITEM_DISPLAY[it.typeKey].img} alt="" className={styles.fallingItemImg} />
           </div>
         ))}
 
         <div className={styles.cart} style={{ left: `${cartX}%` }}>
-          <span className={styles.cartGlow} aria-hidden="true" />
-          <ShoppingCart className={styles.cartIcon} size={70} strokeWidth={2.2} />
+          <span className={`${styles.cartGlow} ${pop ? styles.cartGlowCatch : ""}`} aria-hidden="true" />
+          <span className={`${styles.cartRing} ${pop ? styles.cartRingCatch : ""}`} aria-hidden="true" />
+          <ShoppingCart className={`${styles.cartIcon} ${pop ? styles.cartIconCatch : ""}`} size={92} strokeWidth={2.1} />
         </div>
       </div>
 

@@ -165,6 +165,7 @@
 .playRoot {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
   min-height: 0;
 }
@@ -207,7 +208,8 @@
   position: relative;
   width: 100%;
   flex: 1 1 auto;
-  min-height: 460px;
+  min-height: 420px;
+  max-height: 620px;
   border-radius: var(--radius-md);
   background: radial-gradient(
       circle at 20% 0%,
@@ -217,6 +219,7 @@
     radial-gradient(circle at 80% 10%, rgba(238, 193, 100, 0.12), transparent 55%),
     var(--surface-2);
   border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), inset 0 -30px 50px -30px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   touch-action: none;
   cursor: grab;
@@ -296,48 +299,33 @@
 
 .fallingItem {
   position: absolute;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  overflow: hidden;
+  width: 46px;
+  height: 46px;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.55));
 }
 
-/* Each source asset frames its art differently (the coin fills its tile,
-   the gem/star sit inside more padding) — object-fit:cover alone can't
-   equalize that since both are already square-in-square, so each type
-   gets its own zoom to read as the same visual size at a glance. */
+/* Source art is pre-normalized (see src/assets/game-icons) to a square
+   canvas with consistent content fill, so every item type reads as the
+   same visual size through one shared container — no per-type zoom. */
 .fallingItemImg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-.itemImgXp {
-  transform: scale(1.15);
-}
-
-.itemImgGem {
-  transform: scale(1.55);
-}
-
-.itemImgCoin {
-  transform: scale(1.05);
+  object-fit: contain;
 }
 
 /* ---- catcher: a golden 3D shopping cart, swapped in for the old
    hoop-and-net so the catch mechanic reads as "shopping" not "sports". ---- */
 .cart {
   position: absolute;
-  bottom: 6px;
+  bottom: 8px;
   transform: translateX(-50%);
-  width: 112px;
-  height: 90px;
+  width: 144px;
+  height: 112px;
   pointer-events: none;
   display: flex;
   align-items: flex-end;
@@ -346,12 +334,58 @@
 
 .cartGlow {
   position: absolute;
-  bottom: -4px;
-  width: 80px;
-  height: 22px;
+  bottom: -2px;
+  width: 104px;
+  height: 28px;
   border-radius: 50%;
   background: radial-gradient(ellipse, rgba(240, 193, 75, 0.55), transparent 75%);
   filter: blur(2px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.cartGlowCatch {
+  animation: cartGlowPulse 0.42s ease-out;
+}
+
+.cartRing {
+  position: absolute;
+  bottom: 14px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 246, 210, 0.8);
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.cartRingCatch {
+  animation: cartRingPulse 0.42s ease-out;
+}
+
+@keyframes cartGlowPulse {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+}
+
+@keyframes cartRingPulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
 }
 
 .cartIcon {
@@ -359,6 +393,11 @@
   color: var(--coin-gold);
   filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 10px rgba(240, 193, 75, 0.55));
   animation: cartSway 3.2s ease-in-out infinite;
+  transition: transform 0.15s ease;
+}
+
+.cartIconCatch {
+  animation: cartSway 3.2s ease-in-out infinite, cartBounce 0.32s ease-out;
 }
 
 @keyframes cartSway {
@@ -371,8 +410,25 @@
   }
 }
 
+@keyframes cartBounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(-6px) scale(1.08);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cartIcon {
+  .cartIcon,
+  .cartIconCatch {
+    animation: none;
+  }
+  .cartGlowCatch,
+  .cartRingCatch {
     animation: none;
   }
 }

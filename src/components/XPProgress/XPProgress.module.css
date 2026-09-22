@@ -1,7 +1,7 @@
 .wrap {
   position: relative;
   width: 100%;
-  padding-top: 26px;
+  padding-top: 32px;
 }
 
 .tick {
@@ -11,29 +11,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--ink);
   transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1);
   white-space: nowrap;
+  animation: tickPop 0.5s var(--ease-spring) both;
+  animation-delay: 0.3s;
+}
+
+.tick span {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #241a02;
+  background: linear-gradient(155deg, var(--coin-gold-soft), var(--coin-gold-strong) 85%);
+  border-radius: 999px;
+  padding: 3px 9px;
+  box-shadow: 0 2px 6px rgba(36, 26, 2, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .tickArrow {
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid var(--ink);
-  margin-top: 1px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--coin-gold-strong);
+  margin-top: -1px;
+}
+
+@keyframes tickPop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
 }
 
 .track {
   position: relative;
   width: 100%;
-  height: 14px;
+  height: 16px;
   border-radius: 999px;
-  background: rgba(20, 14, 0, 0.16);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: rgba(20, 14, 0, 0.18);
+  border: 1px solid rgba(36, 26, 2, 0.14);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.28), inset 0 -1px 0 rgba(255, 255, 255, 0.25);
   overflow: hidden;
 }
 
@@ -44,21 +65,73 @@
   background:
     repeating-linear-gradient(
       -45deg,
-      rgba(255, 255, 255, 0.3) 0px,
-      rgba(255, 255, 255, 0.3) 6px,
+      rgba(255, 255, 255, 0.32) 0px,
+      rgba(255, 255, 255, 0.32) 6px,
       rgba(0, 0, 0, 0) 6px,
       rgba(0, 0, 0, 0) 12px
     ),
     linear-gradient(90deg, var(--coin-gold-strong), var(--coin-gold-soft));
+  box-shadow: 0 0 12px rgba(240, 193, 75, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.55);
   transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fillClip {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.fillShine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 45%,
+    transparent 60%
+  );
+  animation: fillShineSweep 2.6s ease-in-out infinite;
+}
+
+@keyframes fillShineSweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  60%,
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+.fillEdge {
+  position: absolute;
+  top: 50%;
+  right: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  background: #fffdf5;
+  box-shadow: 0 0 8px 2px rgba(255, 246, 210, 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fillShine {
+    animation: none;
+    display: none;
+  }
+  .tick {
+    animation: none;
+  }
 }
 
 .footerRow {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .remaining {
@@ -69,15 +142,21 @@
 
 .activityLink {
   flex-shrink: 0;
-  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--ink-muted);
-  background: none;
-  border: none;
-  padding: 0;
+  color: #241a02;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(36, 26, 2, 0.16);
+  border-radius: 999px;
+  padding: 6px 12px;
   cursor: pointer;
+  transition: background 0.2s var(--ease-smooth), transform 0.2s var(--ease-smooth);
 }
 
 .activityLink:hover {
-  color: var(--ink);
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateY(-1px);
 }

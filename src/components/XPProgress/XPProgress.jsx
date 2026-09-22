@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ChevronRight } from "lucide-react";
 import { playClick } from "../../utils/audio.js";
 import styles from "./XPProgress.module.css";
 
@@ -30,7 +31,12 @@ function XPProgress({ currentXP, requiredXP, nextLevel, onViewActivity }) {
         aria-valuemin={0}
         aria-valuemax={100}
       >
-        <div className={styles.fill} style={{ width: `${pct}%` }} />
+        <div className={styles.fill} style={{ width: `${pct}%` }}>
+          <span className={styles.fillClip} aria-hidden="true">
+            <span className={styles.fillShine} />
+          </span>
+          {pct > 0 && <span className={styles.fillEdge} aria-hidden="true" />}
+        </div>
       </div>
 
       <div className={styles.footerRow}>
@@ -48,7 +54,8 @@ function XPProgress({ currentXP, requiredXP, nextLevel, onViewActivity }) {
               onViewActivity();
             }}
           >
-            View Activity ›
+            View Activity
+            <ChevronRight size={13} strokeWidth={2.6} />
           </button>
         )}
       </div>

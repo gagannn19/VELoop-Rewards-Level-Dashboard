@@ -6,11 +6,13 @@ function CurrentLevel({ level, name, currentXP }) {
   return (
     <div className={styles.row}>
       <div className={styles.badgeStage}>
+        <span className={styles.badgeGlow} aria-hidden="true" />
         <img
           className={`${styles.badge} badge3d`}
           src={getBadgeSrc(level)}
           alt={`Level ${String(level).padStart(2, "0")} badge`}
         />
+        <span className={styles.badgeShadow} aria-hidden="true" />
       </div>
       <div className={styles.textCol}>
         <span className={styles.name}>

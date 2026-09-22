@@ -28,9 +28,9 @@ function NextLevelReward({ nextLevel, reward, progressPct }) {
 
       <div className={styles.rewardBlock}>
         <div className={styles.iconWrap}>
-          <Lock size={22} />
+          <Lock size={18} />
         </div>
-        <LevelRewardCard reward={reward} size="lg" locked />
+        <LevelRewardCard reward={reward} size="lg" />
       </div>
 
       <p className={styles.unlockText}>
@@ -38,15 +38,19 @@ function NextLevelReward({ nextLevel, reward, progressPct }) {
       </p>
 
       <div className={`${styles.preview} ${revealed ? styles.revealed : ""}`}>
+        <span className={styles.chestGround} aria-hidden="true" />
         <ClosedChest className={`${styles.chestArt} ${styles.chestClosed}`} />
         <OpenChest className={`${styles.chestArt} ${styles.chestOpen}`} />
         <CoinRain />
       </div>
 
+      <div className={styles.progressFooter}>
+        <span className={styles.miniLabel}>Progress to Level {String(nextLevel).padStart(2, "0")}</span>
+        <span className={styles.miniPct}>{progressPct}%</span>
+      </div>
       <div className={styles.miniTrack}>
         <div className={styles.miniFill} style={{ width: `${progressPct}%` }} />
       </div>
-      <div className={styles.miniPct}>{progressPct}%</div>
     </div>
   );
 }
