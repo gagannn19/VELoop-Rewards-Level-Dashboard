@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getBadgeSrc, lockBadgeSrc } from "../../assets/badges/index.js";
 import LevelRewardCard from "../LevelRewardCard/LevelRewardCard.jsx";
+import { playClick } from "../../utils/audio.js";
 import styles from "./LevelRoadmap.module.css";
 
 function statusFor(levelNumber, currentLevel) {
@@ -14,6 +15,7 @@ function LevelRoadmap({ roadmap, currentLevel }) {
   const trackRef = useRef(null);
 
   const slide = (dir) => {
+    playClick();
     trackRef.current?.scrollBy({ left: dir * 260, behavior: "smooth" });
   };
 

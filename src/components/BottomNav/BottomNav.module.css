@@ -48,5 +48,5 @@
 }
 
 .item.active svg {
-  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6));
+  filter: drop-shadow(0 0 6px rgba(238, 193, 100, 0.6));
 }

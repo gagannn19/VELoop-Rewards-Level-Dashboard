@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
+import { playClick } from "../../../utils/audio.js";
 import styles from "./GameFullscreen.module.css";
 
 /**
@@ -22,7 +23,15 @@ function GameFullscreen({ children, onClose }) {
 
   return (
     <div className={styles.stage} role="dialog" aria-modal="true">
-      <button type="button" className={styles.closeBtn} aria-label="Close game" onClick={onClose}>
+      <button
+        type="button"
+        className={styles.closeBtn}
+        aria-label="Close game"
+        onClick={() => {
+          playClick();
+          onClose();
+        }}
+      >
         <X size={20} />
       </button>
       <div className={styles.inner}>{children}</div>

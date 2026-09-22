@@ -7,7 +7,7 @@
   align-items: center;
   gap: 8px;
   background: var(--surface-2);
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  border: 1px solid rgba(238, 193, 100, 0.35);
   color: var(--text-primary);
   font-size: 0.82rem;
   font-weight: 600;

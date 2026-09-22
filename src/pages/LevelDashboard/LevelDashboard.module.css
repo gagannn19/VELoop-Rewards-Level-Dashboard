@@ -46,17 +46,13 @@
 }
 
 @media (min-width: 992px) {
-  .gridHero {
+  /* Same right-column ratio on all three rows (hero/game, roadmap/next-level,
+     earn-more/activity) so the game card, Next Level Reward, and Recent
+     Activity — which all sit in that right column — line up at one width. */
+  .gridHero,
+  .gridTwo,
+  .gridTwoEven {
     grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
     align-items: stretch;
-  }
-
-  .gridTwo {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    align-items: stretch;
-  }
-
-  .gridTwoEven {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 }

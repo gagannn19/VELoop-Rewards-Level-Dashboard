@@ -1,42 +1,44 @@
 :root {
-  /* ---- casino-inspired dark palette: near-black with a violet undertone,
-     instead of neutral black — backgrounds & borders pick up a faint purple
-     cast even where no explicit accent color is applied. ---- */
-  --bg: #0c0817;
-  --bg-elevated: #120c1f;
-  --surface: #160f26;
-  --surface-2: #1c1330;
-  --surface-3: #26193f;
-  --border: rgba(196, 168, 255, 0.09);
-  --border-strong: rgba(196, 168, 255, 0.18);
+  /* ---- deep navy-charcoal dark palette (warm gold reads best against a
+     neutral-cool dark, not a violet-tinted one) — near-black with just a
+     whisper of blue, never fully flat/neutral black. ---- */
+  --bg: #0a0d16;
+  --bg-elevated: #0f131e;
+  --surface: #141926;
+  --surface-2: #1a2032;
+  --surface-3: #242c42;
+  --border: rgba(240, 200, 140, 0.1);
+  --border-strong: rgba(240, 200, 140, 0.2);
 
   --navy: #101623;
-  /* ---- primary brand accent: vivid violet (was gold) — drives buttons,
-     active states, borders/glows and headline text across the app. ---- */
-  --gold: #8b5cf6;
-  --gold-strong: #7c3aed;
-  --gold-soft: #c9b3ff;
+  /* ---- primary brand accent: warm champagne gold — drives buttons, active
+     states, borders/glows and headline text across the app. ---- */
+  --gold: #eec164;
+  --gold-strong: #d9a13c;
+  --gold-soft: #ffe3a3;
   --silver: #c7ccd6;
   --soft-blue: #5b8def;
   --warm-yellow: #f5c542;
 
-  /* ---- literal "coin/reward" gold — kept distinct from the violet brand
-     accent above so treasure/coin/trophy artwork (and anything that reads
-     as currency: reward chips, XP/progress fills) stays gold, matching the
-     winged badge artwork instead of following the UI chrome retheme. ---- */
+  /* ---- literal "coin/reward" gold — same family as the brand accent above
+     (both read as gold now), kept as its own token set so reward-specific
+     art/chips can be retuned independently of general UI chrome later. ---- */
   --coin-gold: #f0c14b;
   --coin-gold-strong: #e0a83a;
   --coin-gold-soft: #ffd876;
 
-  /* ---- "reward card" treatment — the rich violet gradient panel used for
-     the level/XP hero and reward callouts. Text on these panels uses --ink,
-     not the dark-bg text tokens above. ---- */
-  --gradient-card-warm: linear-gradient(120deg, #4c1d95 0%, #7c3aed 55%, #a78bfa 100%);
+  /* ---- "reward card" treatment — a gold-foil gradient panel used for the
+     level/XP hero and reward callouts: deep bronze corner, pale ivory
+     highlight sweeping through the middle, for more depth than a flat
+     cream fill. Text on these panels uses --ink, not the dark-bg text
+     tokens above. ---- */
+  --gradient-card-warm: linear-gradient(120deg, #b8873a 0%, #f6e2b8 45%, #fffaf0 65%, #d8b877 100%);
   --gradient-gold-text: linear-gradient(90deg, var(--coin-gold-strong) 0%, var(--coin-gold-soft) 50%, var(--coin-gold-strong) 100%);
-  --ink: #ffffff;
-  --ink-muted: rgba(255, 255, 255, 0.76);
+  --ink: #2a1f0d;
+  --ink-muted: rgba(42, 31, 13, 0.68);
 
-  /* secondary reward colors — purple (XP) and green (gems/bonus) */
+  /* secondary accent colors — used for variety in category/activity icon
+     chips (referral, tasks, games, etc.) so the whole app isn't one note. */
   --purple: #9b6bf2;
   --purple-strong: #7c4fe0;
   --muted-purple: #9b8ce8;
@@ -44,9 +46,9 @@
   --green-strong: #2bbf72;
   --subtle-green: #4fd18b;
 
-  --text-primary: #f5f6fb;
-  --text-secondary: #b3aed0;
-  --text-muted: #7c76a0;
+  --text-primary: #f5f1e8;
+  --text-secondary: #b8b0a0;
+  --text-muted: #7c7568;
 
   --success: #3ddc8a;
   --danger: #f0665a;
@@ -56,8 +58,8 @@
   --radius-lg: 24px;
 
   --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.5);
-  --shadow-glow-gold: 0 0 32px rgba(139, 92, 246, 0.35);
-  --shadow-glow-gold-strong: 0 0 46px rgba(139, 92, 246, 0.5);
+  --shadow-glow-gold: 0 0 32px rgba(238, 193, 100, 0.35);
+  --shadow-glow-gold-strong: 0 0 46px rgba(238, 193, 100, 0.5);
   --shadow-glow-purple: 0 0 28px rgba(155, 107, 242, 0.32);
   --shadow-glow-green: 0 0 28px rgba(61, 220, 138, 0.3);
 
@@ -83,10 +85,10 @@ body,
 body {
   margin: 0;
   background:
-    radial-gradient(ellipse 1000px 600px at 15% -10%, rgba(139, 92, 246, 0.22), transparent 60%),
-    radial-gradient(ellipse 900px 700px at 88% 5%, rgba(219, 39, 119, 0.12), transparent 55%),
-    radial-gradient(ellipse 1100px 800px at 50% 105%, rgba(76, 29, 149, 0.35), transparent 65%),
-    linear-gradient(180deg, #08050f 0%, #0d0818 45%, #08050f 100%);
+    radial-gradient(ellipse 1000px 600px at 15% -10%, rgba(238, 193, 100, 0.14), transparent 60%),
+    radial-gradient(ellipse 900px 700px at 88% 5%, rgba(91, 141, 239, 0.08), transparent 55%),
+    radial-gradient(ellipse 1100px 800px at 50% 105%, rgba(40, 50, 80, 0.4), transparent 65%),
+    linear-gradient(180deg, #07090f 0%, #0b0e17 45%, #07090f 100%);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-body);

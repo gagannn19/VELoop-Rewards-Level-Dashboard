@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { playClick } from "../../utils/audio.js";
 import styles from "./XPProgress.module.css";
 
 /** Animated XP bar: fills from 0 to the real percentage on mount/update. */
@@ -39,7 +40,14 @@ function XPProgress({ currentXP, requiredXP, nextLevel, onViewActivity }) {
             : "Ready to level up!"}
         </span>
         {onViewActivity && (
-          <button type="button" className={styles.activityLink} onClick={onViewActivity}>
+          <button
+            type="button"
+            className={styles.activityLink}
+            onClick={() => {
+              playClick();
+              onViewActivity();
+            }}
+          >
             View Activity ›
           </button>
         )}

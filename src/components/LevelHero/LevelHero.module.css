@@ -51,7 +51,7 @@
 
 .boostCard {
   background: var(--surface);
-  border: 1px solid rgba(139, 92, 246, 0.22);
+  border: 1px solid rgba(238, 193, 100, 0.22);
   border-radius: var(--radius-lg);
   padding: 16px 18px;
   box-shadow: var(--shadow-card);

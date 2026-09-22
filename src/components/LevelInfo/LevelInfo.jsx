@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Info } from "lucide-react";
+import { playClick } from "../../utils/audio.js";
 import styles from "./LevelInfo.module.css";
 
 /** Small [i] icon that reveals an explanatory tooltip on hover/tap/focus. */
@@ -18,7 +19,10 @@ function LevelInfo({ text }) {
         type="button"
         className={styles.trigger}
         aria-label="More information"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          playClick();
+          setOpen((o) => !o);
+        }}
       >
         <Info size={14} />
       </button>
