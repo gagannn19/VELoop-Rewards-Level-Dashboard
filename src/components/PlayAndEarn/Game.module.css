@@ -390,8 +390,9 @@
 
 .cartIcon {
   position: relative;
-  color: var(--coin-gold);
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 10px rgba(240, 193, 75, 0.55));
+  width: 130px;
+  height: auto;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 10px rgba(240, 193, 75, 0.35));
   animation: cartSway 3.2s ease-in-out infinite;
   transition: transform 0.15s ease;
 }

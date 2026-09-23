@@ -4,11 +4,11 @@
      whisper of blue, never fully flat/neutral black. ---- */
   --bg: #0a0d16;
   --bg-elevated: #0f131e;
-  --surface: #141926;
-  --surface-2: #1a2032;
-  --surface-3: #242c42;
-  --border: rgba(240, 200, 140, 0.1);
-  --border-strong: rgba(240, 200, 140, 0.2);
+  --surface: #1f2638;
+  --surface-2: #272f46;
+  --surface-3: #323b56;
+  --border: rgba(240, 200, 140, 0.14);
+  --border-strong: rgba(240, 200, 140, 0.26);
 
   --navy: #101623;
   /* ---- primary brand accent: warm champagne gold — drives buttons, active

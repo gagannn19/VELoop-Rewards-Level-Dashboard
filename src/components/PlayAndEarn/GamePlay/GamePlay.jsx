@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ShoppingCart, Timer } from "lucide-react";
+import { Timer } from "lucide-react";
 import { gameConfig } from "../../../data/levelData.js";
 import gemImg from "../../../assets/game-icons/gem.png";
 import coinImg from "../../../assets/game-icons/coin.png";
 import multiGemImg from "../../../assets/game-icons/gem-multi.png";
 import multiCoinImg from "../../../assets/game-icons/coin-multi.png";
 import starImg from "../../../assets/game-icons/star.png";
+import cartImg from "../../../assets/game-icons/cart.png";
 import { startGameMusic, stopGameMusic, playCatch, playMultiplier, playGameOver } from "../../../utils/audio.js";
 import styles from "../Game.module.css";
 
@@ -210,7 +211,7 @@ function GamePlay({ durationSeconds, onFinish }) {
         <div className={styles.cart} style={{ left: `${cartX}%` }}>
           <span className={`${styles.cartGlow} ${pop ? styles.cartGlowCatch : ""}`} aria-hidden="true" />
           <span className={`${styles.cartRing} ${pop ? styles.cartRingCatch : ""}`} aria-hidden="true" />
-          <ShoppingCart className={`${styles.cartIcon} ${pop ? styles.cartIconCatch : ""}`} size={92} strokeWidth={2.1} />
+          <img src={cartImg} alt="" className={`${styles.cartIcon} ${pop ? styles.cartIconCatch : ""}`} />
         </div>
       </div>
 

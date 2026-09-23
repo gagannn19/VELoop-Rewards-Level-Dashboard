@@ -9,7 +9,7 @@
      (both `position: fixed`), which breaks their "cover the full
      viewport" sizing — they'd size against this bar's own small box
      instead, leaving the drawer's nav list without its background. */
-  background: var(--bg-elevated);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 28px;
   box-shadow: var(--shadow-card);
