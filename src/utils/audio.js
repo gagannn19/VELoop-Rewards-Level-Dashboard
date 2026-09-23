@@ -16,7 +16,58 @@ let musicTimer = null;
 
 function getMuted() {
   if (typeof window === "undefined") return false;
-  return localStorage.getItem(STORAGE_KEY) === "1";
+  try {
+    return localStorage.getItem(STORAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+/** A tiny looping silent WAV, built in memory (no asset file). */
+function silentWavUrl() {
+  const samples = 800; // 0.1s at 8kHz, 8-bit mono
+  const buf = new ArrayBuffer(44 + samples);
+  const v = new DataView(buf);
+  const str = (off, s) => [...s].forEach((c, i) => v.setUint8(off + i, c.charCodeAt(0)));
+  str(0, "RIFF");
+  v.setUint32(4, 36 + samples, true);
+  str(8, "WAVEfmt ");
+  v.setUint32(16, 16, true);
+  v.setUint16(20, 1, true); // PCM
+  v.setUint16(22, 1, true); // mono
+  v.setUint32(24, 8000, true);
+  v.setUint32(28, 8000, true);
+  v.setUint16(32, 1, true);
+  v.setUint16(34, 8, true);
+  str(36, "data");
+  v.setUint32(40, samples, true);
+  new Uint8Array(buf, 44).fill(128); // 8-bit silence is the midpoint
+  return URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
+}
+
+// iOS routes Web Audio through the "ambient" channel, which the ring/silent
+// switch mutes — so on an iPhone in silent mode every sound here is dropped
+// even with the volume up. Declaring a "playback" session (Safari 17+), or on
+// older iOS keeping a silent <audio> element playing, moves the page onto the
+// media channel like a video would.
+let mediaChannelUnlocked = false;
+function unlockMediaChannel() {
+  if (mediaChannelUnlocked) return;
+  mediaChannelUnlocked = true;
+  try {
+    if (navigator.audioSession) {
+      navigator.audioSession.type = "playback";
+      return;
+    }
+    const el = new Audio(silentWavUrl());
+    el.loop = true;
+    el.setAttribute("playsinline", "");
+    el.play().catch(() => {
+      mediaChannelUnlocked = false; // not in a gesture yet — retry on the next one
+    });
+  } catch {
+    // best effort; sound still works everywhere except iOS silent mode
+  }
 }
 
 function ensureContext() {
@@ -32,8 +83,26 @@ function ensureContext() {
     sfxGain.gain.value = 0.22;
     sfxGain.connect(ctx.destination);
   }
+  unlockMediaChannel();
   if (ctx.state === "suspended") ctx.resume();
   return ctx;
+}
+
+// Browsers only let audio start inside a user gesture. Sounds like the game
+// music or the level-up fanfare fire from effects, not directly from a tap,
+// so on strict browsers (iOS Safari especially) they'd stay silent unless the
+// context was already unlocked. Unlock it on the very first interaction
+// anywhere on the page, then stop listening.
+if (typeof window !== "undefined") {
+  const UNLOCK_EVENTS = ["pointerdown", "touchend", "keydown"];
+  const unlock = () => {
+    if (getMuted()) return; // stay locked while muted; the unmute tap unlocks
+    ensureContext();
+    if (ctx && ctx.state === "running") {
+      UNLOCK_EVENTS.forEach((e) => window.removeEventListener(e, unlock, true));
+    }
+  };
+  UNLOCK_EVENTS.forEach((e) => window.addEventListener(e, unlock, true));
 }
 
 /** Plucked, piano-ish tone: fast attack, exponential decay, two stacked
@@ -164,6 +233,10 @@ export function isSoundMuted() {
 
 export function setSoundMuted(muted) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, muted ? "1" : "0");
+  try {
+    localStorage.setItem(STORAGE_KEY, muted ? "1" : "0");
+  } catch {
+    // storage blocked (e.g. some private modes) — the toggle just won't persist
+  }
   if (muted) stopGameMusic();
 }
