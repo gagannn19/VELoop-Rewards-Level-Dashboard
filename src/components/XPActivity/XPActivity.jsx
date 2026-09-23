@@ -53,7 +53,13 @@ function XPActivity({ activity }) {
       <ul className={styles.list}>
         {activity.map((item) => {
           const { Icon, accent } = getActivityVisual(item.label);
-          const amountText = item.meta || (item.ves ? `+${item.ves} VEs` : `+${item.xp} XP`);
+          // Multi-reward entries (e.g. a game run) carry a "+56 XP · +10 Gems · …"
+          // meta string. Only the headline reward goes in the right-hand amount
+          // column; the rest moves under the label so the label never gets
+          // squeezed to an ellipsis.
+          const [amountText, ...extras] = (
+            item.meta || (item.ves ? `+${item.ves} VEs` : `+${item.xp} XP`)
+          ).split(" · ");
           return (
             <li key={item.id} className={styles.row}>
               <span className={`${styles.iconWrap} ${styles[accent]}`}>
@@ -61,7 +67,12 @@ function XPActivity({ activity }) {
               </span>
               <div className={styles.info}>
                 <span className={styles.label}>{item.label}</span>
-                <span className={styles.time}>{item.time}</span>
+                <span className={styles.time}>
+                  {item.time}
+                  {extras.length > 0 && (
+                    <span className={styles.extras}> · {extras.join(" · ")}</span>
+                  )}
+                </span>
               </div>
               <span className={styles.amount}>{amountText}</span>
               <ChevronRight size={16} className={styles.chevron} />

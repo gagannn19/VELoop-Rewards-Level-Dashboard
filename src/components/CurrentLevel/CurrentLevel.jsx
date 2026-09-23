@@ -1,14 +1,23 @@
+import { useState } from "react";
 import { getBadgeSrc } from "../../assets/badges/index.js";
 import styles from "./CurrentLevel.module.css";
 
 /** Winged level badge + XP total, shown at the top of the reward card. */
 function CurrentLevel({ level, name, currentXP }) {
+  // hover (desktop) or tap (touch) kicks off one fast 360° spin; ignored
+  // while a spin is already running so it always completes cleanly
+  const [spinning, setSpinning] = useState(false);
+  const spin = () => setSpinning(true);
+
   return (
     <div className={styles.row}>
       <div className={styles.badgeStage}>
         <span className={styles.badgeGlow} aria-hidden="true" />
         <img
-          className={`${styles.badge} badge3d`}
+          className={`${styles.badge} badge3d ${spinning ? styles.spinning : ""}`}
+          onMouseEnter={spin}
+          onClick={spin}
+          onAnimationEnd={() => setSpinning(false)}
           src={getBadgeSrc(level)}
           alt={`Level ${String(level).padStart(2, "0")} badge`}
         />

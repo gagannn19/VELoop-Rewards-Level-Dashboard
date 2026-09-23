@@ -20,10 +20,8 @@ function NextLevelReward({ nextLevel, reward, progressPct }) {
       onClick={() => setRevealed(true)}
     >
       <div className={styles.header}>
-        <span className={styles.title}>
-          Next Level Reward
-          <LevelInfo text="The displayed reward is associated with the next level according to the current reward configuration." />
-        </span>
+        <h2 className={styles.title}>Next Level Reward</h2>
+        <LevelInfo text="The displayed reward is associated with the next level according to the current reward configuration." />
       </div>
 
       <div className={styles.rewardBlock}>

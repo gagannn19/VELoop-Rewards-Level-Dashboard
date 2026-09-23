@@ -7,7 +7,7 @@
   border: 1px solid rgba(238, 193, 100, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  padding: 18px;
+  padding: 20px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -16,19 +16,16 @@
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 18px;
 }
 
-.title {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.78rem;
-  line-height: 1.4;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  font-weight: 800;
+/* size/weight/underline come from the shared `.premiumCard h2` rule, so
+   this matches the other section headings (doubled class beats its margin) */
+.header .title {
+  margin: 0;
 }
 
 .rewardBlock {
@@ -107,7 +104,7 @@
 .chestClosed {
   transform: translate(-50%, -50%) scale(1) rotate(0deg);
   opacity: 1;
-  animation: chestIdleGlow 3.6s ease-in-out infinite;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 10px rgba(240, 193, 75, 0.35));
 }
 
 .chestOpen {
@@ -125,16 +122,6 @@
   transform: translate(-50%, -50%) scale(1) translateY(0);
   opacity: 1;
   animation: chestOpenFloat 3.2s ease-in-out infinite;
-}
-
-@keyframes chestIdleGlow {
-  0%,
-  100% {
-    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 6px rgba(240, 193, 75, 0.25));
-  }
-  50% {
-    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 16px rgba(240, 193, 75, 0.55));
-  }
 }
 
 @keyframes chestOpenFloat {

@@ -69,7 +69,7 @@ function LevelRoadmap({ roadmap, currentLevel }) {
               <div className={styles.badgeStage}>
                 <span className={styles.aura} aria-hidden="true" />
                 <img
-                  className={`${styles.badge} badge3d`}
+                  className={styles.badge}
                   data-locked={locked}
                   src={getBadgeSrc(item.level)}
                   alt={`Level ${String(item.level).padStart(2, "0")}`}
@@ -82,9 +82,6 @@ function LevelRoadmap({ roadmap, currentLevel }) {
                 {locked && (
                   <img className={styles.lock} src={lockBadgeSrc} alt="" aria-hidden="true" />
                 )}
-              </div>
-              <div className={styles.levelLabel}>
-                Level {String(item.level).padStart(2, "0")}
               </div>
               <div className={styles.levelName}>{item.name}</div>
               <LevelRewardCard reward={item.reward} size="sm" locked={locked} />

@@ -12,7 +12,7 @@
     radial-gradient(90% 140% at 105% 115%, rgba(120, 78, 22, 0.4), transparent 60%),
     var(--gradient-card-warm);
   border-radius: var(--radius-lg);
-  padding: 22px;
+  padding: 20px;
   border: 1px solid rgba(255, 236, 190, 0.55);
   box-shadow:
     var(--shadow-card),
@@ -30,10 +30,6 @@
     var(--shadow-card),
     var(--shadow-glow-gold-strong),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-.rewardCard :global(.sparkleField) {
-  z-index: 0;
 }
 
 .sweep {
@@ -86,6 +82,6 @@
   background: var(--surface);
   border: 1px solid rgba(238, 193, 100, 0.22);
   border-radius: var(--radius-lg);
-  padding: 16px 18px;
+  padding: 16px 20px;
   box-shadow: var(--shadow-card);
 }

@@ -3,7 +3,7 @@
   border: 1px solid rgba(238, 193, 100, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  padding: 18px;
+  padding: 20px;
 }
 
 .title {
@@ -94,6 +94,13 @@
 .time {
   font-size: 0.72rem;
   color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.extras {
+  color: var(--text-secondary);
 }
 
 .amount {

@@ -18,43 +18,6 @@
     linear-gradient(180deg, var(--surface-2) 0%, var(--bg-elevated) 100%);
 }
 
-.coinField {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.driftCoin {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff6c8, var(--coin-gold) 55%, var(--coin-gold-strong) 85%, #8a6a12 100%);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.6),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
-    0 2px 4px rgba(0, 0, 0, 0.35);
-  opacity: 0.85;
-  animation-name: coinDrift;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes coinDrift {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-14px) rotate(180deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .driftCoin {
-    animation: none;
-  }
-}
-
 .gameIconRing {
   position: relative;
   overflow: hidden;
@@ -90,8 +53,6 @@
   margin: 0;
   color: var(--text-secondary);
   font-size: 0.86rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   max-width: 320px;
 }
 

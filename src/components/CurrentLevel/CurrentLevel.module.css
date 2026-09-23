@@ -49,18 +49,38 @@
 
 .badge {
   position: relative;
-  width: 132px;
+  width: 200px;
   height: auto;
+  cursor: pointer;
 }
 
-@media (max-width: 420px) {
+.badge.spinning {
+  animation: badgeSpin 0.7s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+
+@keyframes badgeSpin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .row {
+    gap: 12px;
+  }
+
+  /* badge stays the hero on phones; the text beside it shrinks instead */
   .badge {
-    width: 100px;
+    width: 140px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .badgeGlow {
+  .badgeGlow,
+  .badge.spinning {
     animation: none;
   }
 }
@@ -93,8 +113,13 @@
   color: var(--ink);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .xp {
-    font-size: 1.7rem;
+    font-size: 1.35rem;
+  }
+
+  .name {
+    font-size: 0.6rem;
+    padding: 3px 8px;
   }
 }

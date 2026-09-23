@@ -1,18 +1,32 @@
 .card {
-  background: var(--surface);
-  border: 1px solid rgba(238, 193, 100, 0.22);
+  /* no fill or frame — the section sits directly on the page, so the
+     level cards themselves carry the visual weight */
+  background: transparent;
+  border: none;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  padding: 18px;
+  /* no inset, so the heading panel spans the full column like the
+     neighbouring cards */
+  padding: 0;
   min-width: 0;
 }
 
 .headerRow {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 14px;
+  /* the one framed panel in this section — wraps only the heading and the
+     arrow controls; the level cards below sit directly on the page */
+  padding: 14px 20px;
+  background: var(--surface);
+  border: 1px solid rgba(238, 193, 100, 0.22);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.headerRow > div:first-child {
+  min-width: 0;
 }
 
 .title {
@@ -63,13 +77,47 @@
   overflow-x: auto;
   overflow-y: visible;
   scroll-behavior: smooth;
-  padding-top: 30px;
-  padding-bottom: 8px;
+  padding: 30px 6px 8px;
+  /* the side padding only gives hover-scaled cards room so the scroll
+     box doesn't clip them; the negative margin keeps the first/last
+     card flush with the heading panel's edges */
+  margin: 0 -6px;
   scroll-snap-type: x proximity;
+  /* arrows + swipe drive scrolling; the native bar just looked unfinished */
+  scrollbar-width: none;
+}
+
+@media (max-width: 575px) {
+  .headerRow {
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+  }
+
+  /* doubled class to beat the global `.premiumCard h2` heading size */
+  .headerRow .title {
+    font-size: 1.1rem;
+  }
+
+  .subtitle {
+    font-size: 0.76rem;
+  }
+
+  .arrowBtn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .track {
+    --step-gap: 14px;
+  }
+
+  .track .step {
+    flex-basis: 108px;
+  }
 }
 
 .track::-webkit-scrollbar {
-  height: 6px;
+  display: none;
 }
 
 .step {
@@ -85,7 +133,14 @@
   border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border);
-  transition: background 0.25s var(--ease-smooth), border-color 0.25s var(--ease-smooth), transform 0.25s var(--ease-smooth);
+  transition: background 0.25s var(--ease-smooth), border-color 0.25s var(--ease-smooth),
+    transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-smooth);
+}
+
+.step:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(238, 193, 100, 0.35);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
 }
 
 /* connector rail — bridges the gap between this node and the next one,
@@ -118,6 +173,18 @@
   border-color: rgba(238, 193, 100, 0.45);
   box-shadow: 0 0 0 1px rgba(238, 193, 100, 0.12), var(--shadow-glow-gold);
   transform: translateY(-4px);
+}
+
+.step.current:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 0 1px rgba(238, 193, 100, 0.2), var(--shadow-glow-gold-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step:hover,
+  .step.current:hover {
+    transform: translateY(-4px);
+  }
 }
 
 .step.locked {
@@ -207,15 +274,6 @@
   width: 18px;
   height: auto;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6));
-}
-
-.levelLabel {
-  position: relative;
-  z-index: 1;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
 .levelName {

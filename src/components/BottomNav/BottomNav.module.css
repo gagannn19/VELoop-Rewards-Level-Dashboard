@@ -50,3 +50,11 @@
 .item.active svg {
   filter: drop-shadow(0 0 6px rgba(238, 193, 100, 0.6));
 }
+
+/* phone/tablet dock only — on desktop it floated over page content, and the
+   TopBar's menu drawer already carries the same navigation */
+@media (min-width: 992px) {
+  .nav {
+    display: none;
+  }
+}

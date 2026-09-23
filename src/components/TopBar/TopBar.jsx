@@ -141,7 +141,7 @@ function TopBar({ activity = [], onNavigate }) {
           />
           <nav className={styles.drawer} aria-label="Main navigation">
             <div className={styles.drawerHeader}>
-              <span className={styles.drawerTitle}>VeLoop Rewards</span>
+              <span className={styles.drawerTitle}>VELoop Rewards</span>
               <button
                 type="button"
                 className={styles.iconBtn}

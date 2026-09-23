@@ -2,14 +2,12 @@ import { Crown, Info } from "lucide-react";
 import CurrentLevel from "../CurrentLevel/CurrentLevel.jsx";
 import XPProgress from "../XPProgress/XPProgress.jsx";
 import TodaysBoost from "../TodaysBoost/TodaysBoost.jsx";
-import SparkleField from "../SparkleField/SparkleField.jsx";
 import styles from "./LevelHero.module.css";
 
 function LevelHero({ level, levelName, currentXP, requiredXP, nextLevel, boost, onViewActivity }) {
   return (
     <section className={styles.hero}>
       <div className={`${styles.rewardCard} premiumCard`}>
-        <SparkleField count={9} />
         <span className={`${styles.sweep} lightSweep`} aria-hidden="true" />
 
         <div className={styles.eyebrowRow}>

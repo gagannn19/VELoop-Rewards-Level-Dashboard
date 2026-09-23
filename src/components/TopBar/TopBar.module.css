@@ -9,10 +9,41 @@
      (both `position: fixed`), which breaks their "cover the full
      viewport" sizing — they'd size against this bar's own small box
      instead, leaving the drawer's nav list without its background. */
-  background: var(--surface);
-  border: 1px solid var(--border);
+  /* fill + border live on ::after (see below), so the mask in ::before can
+     sit between them and the page */
+  border: 1px solid transparent;
   border-radius: 28px;
   box-shadow: var(--shadow-card);
+}
+
+/* Masks the strip between the viewport top and this sticky bar, so content
+   scrolling underneath doesn't peek out above it. Paints the page's own
+   fixed backdrop, so it's invisible until something scrolls behind it.
+   Stops at the bar's midline — the bar's fill covers the rest. */
+.wrap::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -15px;
+  left: -1px;
+  right: -1px;
+  height: calc(15px + 50%);
+  background: var(--page-bg);
+  background-attachment: fixed;
+}
+
+/* The bar's own fill and border. Negative z-index children paint above the
+   stacking-context root's background, so the fill has to be a later
+   sibling layer here rather than .wrap's own background, or the mask
+   above would cover the bar's top half. */
+.wrap::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
 }
 
 @media (max-width: 767px) {
