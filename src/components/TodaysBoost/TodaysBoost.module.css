@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--tile-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 10px 12px;
@@ -43,7 +43,7 @@
 }
 
 .iconWrap.blue {
-  background: rgba(91, 141, 239, 0.15);
+  background: rgba(111, 155, 255, 0.16);
   color: var(--soft-blue);
 }
 

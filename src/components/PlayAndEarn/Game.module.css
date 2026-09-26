@@ -12,10 +12,14 @@
   height: 100%;
   min-height: 300px;
   justify-content: center;
+  /* royal-blue light pooled behind the icon, sky sheen top-right, and only
+     a tight warm core under the gold icon (wide gold washes over blue read
+     muddy grey) */
   background:
-    radial-gradient(circle at 18% -10%, rgba(238, 193, 100, 0.18), transparent 55%),
-    radial-gradient(circle at 88% 110%, rgba(238, 193, 100, 0.14), transparent 50%),
-    linear-gradient(180deg, var(--surface-2) 0%, var(--bg-elevated) 100%);
+    radial-gradient(140px 140px at 50% 32%, rgba(238, 193, 100, 0.14), transparent 70%),
+    radial-gradient(460px 320px at 50% 34%, rgba(77, 111, 220, 0.3), transparent 70%),
+    radial-gradient(420px 260px at 100% 0%, rgba(141, 208, 255, 0.1), transparent 70%),
+    var(--gradient-navy-deep);
 }
 
 .gameIconRing {
@@ -111,7 +115,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--tile-bg-strong);
   color: var(--text-primary);
   font-weight: 700;
   border: 1px solid var(--border-strong);
@@ -192,7 +196,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--tile-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 12px;
@@ -231,7 +235,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--tile-bg);
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 14px;

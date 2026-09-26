@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(10, 11, 20, 0.7);
+  background: rgba(5, 9, 24, 0.72);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -129,7 +129,7 @@
   text-align: left;
   font-size: 0.82rem;
   color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--tile-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 }

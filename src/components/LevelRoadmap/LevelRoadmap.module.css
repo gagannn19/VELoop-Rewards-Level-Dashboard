@@ -19,7 +19,7 @@
   /* the one framed panel in this section — wraps only the heading and the
      arrow controls; the level cards below sit directly on the page */
   padding: 14px 20px;
-  background: var(--surface);
+  background: var(--gradient-surface);
   border: 1px solid rgba(238, 193, 100, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
@@ -131,7 +131,7 @@
   position: relative;
   padding: 14px 10px;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(111, 155, 255, 0.07);
   border: 1px solid var(--border);
   transition: background 0.25s var(--ease-smooth), border-color 0.25s var(--ease-smooth),
     transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-smooth);

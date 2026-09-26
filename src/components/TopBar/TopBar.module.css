@@ -42,7 +42,7 @@
   z-index: -1;
   inset: -1px;
   border-radius: inherit;
-  background: var(--surface);
+  background: var(--gradient-surface);
   border: 1px solid var(--border);
 }
 
@@ -68,7 +68,7 @@
   height: 38px;
   flex-shrink: 0;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--tile-bg);
   border: 1px solid var(--border);
   color: var(--text-secondary);
   cursor: pointer;
@@ -213,7 +213,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 6, 10, 0.6);
+  background: rgba(4, 8, 22, 0.6);
   border: none;
   padding: 0;
   z-index: 70;

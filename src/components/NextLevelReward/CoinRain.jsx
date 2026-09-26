@@ -1,27 +1,29 @@
 import { useMemo } from "react";
 import styles from "./NextLevelReward.module.css";
 
-const GEM_CLASSES = ["gemGold", "gemGreen", "gemPurple"];
-
 /**
- * A mix of gold coins and gems falling like rain from the open chest.
- * Purely visual — animation only actually plays once `active` is true
- * (see `.preview.revealed .coin`/`.gem` in NextLevelReward.module.css),
- * this just lays out the randomized positions/timing once per mount.
+ * A one-shot fountain of gold coins and gems that bursts out of the chest
+ * mouth as it opens. Purely visual — the animation only plays once the
+ * preview is revealed (see `.preview.revealed .coin`/`.gem` in
+ * NextLevelReward.module.css); this just lays out the randomized arcs and
+ * timing once per mount.
  */
-function CoinRain({ count = 16 }) {
+function CoinRain({ count = 14 }) {
   const pieces = useMemo(
     () =>
       Array.from({ length: count }, (_, i) => {
-        const isGem = i % 3 !== 0;
+        const isGem = i % 3 === 0;
+        // alternate sides so the burst stays balanced around the chest
+        const side = i % 2 === 0 ? -1 : 1;
         return {
           id: i,
           isGem,
-          gemClass: isGem ? GEM_CLASSES[i % GEM_CLASSES.length] : null,
-          left: 22 + Math.random() * 56,
-          size: isGem ? 8 + Math.random() * 5 : 9 + Math.random() * 6,
-          delay: Math.random() * 1.8,
-          duration: 1.3 + Math.random() * 0.9,
+          size: isGem ? 7 + Math.random() * 3 : 8 + Math.random() * 4,
+          dx: side * (24 + Math.random() * 64),
+          rise: -(26 + Math.random() * 30),
+          rot: side * (160 + Math.random() * 200),
+          delay: 0.28 + Math.random() * 0.32,
+          duration: 1.05 + Math.random() * 0.45,
         };
       }),
     [count],
@@ -32,11 +34,13 @@ function CoinRain({ count = 16 }) {
       {pieces.map((p) => (
         <span
           key={p.id}
-          className={p.isGem ? `${styles.gem} ${styles[p.gemClass]}` : styles.coin}
+          className={p.isGem ? styles.gem : styles.coin}
           style={{
-            left: `${p.left}%`,
             width: `${p.size}px`,
             height: `${p.size}px`,
+            "--dx": `${p.dx}px`,
+            "--rise": `${p.rise}px`,
+            "--rot": `${p.rot}deg`,
             animationDelay: `${p.delay}s`,
             animationDuration: `${p.duration}s`,
           }}

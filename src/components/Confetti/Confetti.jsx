@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-const COLORS = ["#f0c14b", "#9b6bf2", "#3ddc8a", "#5b8def", "#ffffff"];
+const COLORS = ["#f0c14b", "#9b6bf2", "#3ddc8a", "#6f9bff", "#ffffff"];
 
 /**
  * Lightweight celebratory confetti burst — pure CSS animation, no

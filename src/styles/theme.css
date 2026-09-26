@@ -1,23 +1,46 @@
 :root {
-  /* ---- deep navy-charcoal dark palette (warm gold reads best against a
-     neutral-cool dark, not a violet-tinted one) — near-black with just a
-     whisper of blue, never fully flat/neutral black. ---- */
-  --bg: #0a0d16;
-  --bg-elevated: #0f131e;
-  --surface: #1f2638;
-  --surface-2: #272f46;
-  --surface-3: #323b56;
+  /* ---- deep royal-navy dark palette — saturated midnight blue rather
+     than grey-navy, so surfaces read rich and lit (gold accents pop
+     against it). Near-black page, progressively bluer raised surfaces. ---- */
+  --bg: #04070f;
+  --bg-elevated: #0a1128;
+  --surface: #111c3d;
+  --surface-2: #16244b;
+  --surface-3: #1e3063;
   --border: rgba(240, 200, 140, 0.14);
   --border-strong: rgba(240, 200, 140, 0.26);
 
-  --navy: #101623;
+  --navy: #0c1533;
   /* ---- primary brand accent: warm champagne gold — drives buttons, active
      states, borders/glows and headline text across the app. ---- */
   --gold: #eec164;
   --gold-strong: #d9a13c;
   --gold-soft: #ffe3a3;
   --silver: #c7ccd6;
-  --soft-blue: #5b8def;
+  --soft-blue: #6f9bff;
+  /* ---- rich royal-blue set for reward "stages" (Mystery Box): a deep
+     navy base lit by a royal-blue glow, with sky-blue hairline highlights.
+     Pairs with the gold accents rather than replacing them. ---- */
+  --royal-blue: #4d6fdc;
+  --royal-blue-bright: #6f9bff;
+  --sky-blue: #8dd0ff;
+  /* near-black navy base shared by every card (135deg: black-navy corners,
+     a touch of midnight blue through the middle) */
+  --gradient-navy-deep: linear-gradient(135deg, #080e21 0%, #101b3b 55%, #060b1b 100%);
+  /* default raised-card fill — the Mystery Box recipe: the near-black navy
+     base lit from within by a royal-blue glow, a sky-blue sheen top-right
+     and a faint warm floor light. Light sizes are fixed px (not %) so wide
+     bars and tall cards get the same even falloff. */
+  --gradient-surface:
+    radial-gradient(560px 340px at 50% 65%, rgba(77, 111, 220, 0.22), transparent 70%),
+    radial-gradient(420px 260px at 100% 0%, rgba(141, 208, 255, 0.08), transparent 70%),
+    radial-gradient(640px 240px at 50% 112%, rgba(238, 193, 100, 0.06), transparent 65%),
+    var(--gradient-navy-deep);
+  /* inset rows/tiles/buttons inside cards — a blue tint rather than a white
+     wash, which reads grey on the blue surfaces */
+  --tile-bg: rgba(111, 155, 255, 0.07);
+  --tile-bg-strong: rgba(111, 155, 255, 0.12);
+  --tile-bg-hover: rgba(111, 155, 255, 0.18);
   --warm-yellow: #f5c542;
 
   /* ---- literal "coin/reward" gold — same family as the brand accent above
@@ -47,8 +70,8 @@
   --subtle-green: #4fd18b;
 
   --text-primary: #f5f1e8;
-  --text-secondary: #b8b0a0;
-  --text-muted: #7c7568;
+  --text-secondary: #b6c3dc;
+  --text-muted: #7e8db1;
 
   --success: #3ddc8a;
   --danger: #f0665a;
@@ -57,7 +80,7 @@
   --radius-md: 16px;
   --radius-lg: 24px;
 
-  --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 10px 30px rgba(2, 6, 20, 0.55);
   --shadow-glow-gold: 0 0 32px rgba(238, 193, 100, 0.35);
   --shadow-glow-gold-strong: 0 0 46px rgba(238, 193, 100, 0.5);
   --shadow-glow-purple: 0 0 28px rgba(155, 107, 242, 0.32);
@@ -72,10 +95,10 @@
   /* page backdrop — a token so the sticky TopBar can paint the exact same
      (viewport-fixed) backdrop behind itself to mask scrolled content */
   --page-bg:
-    radial-gradient(ellipse 1000px 600px at 15% -10%, rgba(238, 193, 100, 0.14), transparent 60%),
-    radial-gradient(ellipse 900px 700px at 88% 5%, rgba(91, 141, 239, 0.08), transparent 55%),
-    radial-gradient(ellipse 1100px 800px at 50% 105%, rgba(40, 50, 80, 0.4), transparent 65%),
-    linear-gradient(180deg, #07090f 0%, #0b0e17 45%, #07090f 100%);
+    radial-gradient(ellipse 900px 520px at 12% -8%, rgba(238, 193, 100, 0.07), transparent 60%),
+    radial-gradient(ellipse 1000px 700px at 88% 0%, rgba(77, 111, 220, 0.2), transparent 60%),
+    radial-gradient(ellipse 700px 600px at 0% 20%, rgba(56, 92, 210, 0.1), transparent 65%),
+    linear-gradient(180deg, #081027 0%, #060b1c 45%, #03050c 100%);
 
   color-scheme: dark;
 }
@@ -88,6 +111,10 @@ html,
 body,
 #root {
   min-height: 100%;
+}
+
+html {
+  background-color: var(--bg);
 }
 
 body {
@@ -315,8 +342,8 @@ a:focus-visible,
   border-radius: inherit;
   background: linear-gradient(
     165deg,
-    rgba(255, 255, 255, 0.025) 0%,
-    rgba(255, 255, 255, 0.008) 18%,
+    rgba(170, 205, 255, 0.045) 0%,
+    rgba(170, 205, 255, 0.012) 18%,
     transparent 38%
   );
   pointer-events: none;

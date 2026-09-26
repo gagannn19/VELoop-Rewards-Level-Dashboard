@@ -23,6 +23,6 @@
 
 .chip.locked {
   color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--tile-bg);
   border-color: var(--border);
 }

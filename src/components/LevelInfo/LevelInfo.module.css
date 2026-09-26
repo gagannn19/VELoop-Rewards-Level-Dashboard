@@ -11,7 +11,7 @@
   height: 20px;
   border-radius: 50%;
   border: 1px solid var(--border-strong);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--tile-bg);
   color: var(--text-secondary);
   cursor: pointer;
 }

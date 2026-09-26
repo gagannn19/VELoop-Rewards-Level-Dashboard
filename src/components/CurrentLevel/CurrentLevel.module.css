@@ -69,12 +69,17 @@
 
 @media (max-width: 480px) {
   .row {
-    gap: 12px;
+    gap: 8px;
   }
 
-  /* badge stays the hero on phones; the text beside it shrinks instead */
+  /* badge stays the hero on phones and may reach a little into the card's
+     left padding; the text beside it shrinks instead */
+  .badgeStage {
+    margin-left: -10px;
+  }
+
   .badge {
-    width: 140px;
+    width: min(200px, 56vw);
   }
 }
 
@@ -86,6 +91,10 @@
 }
 
 .textCol {
+  /* above the badge's absolutely-positioned glow, which otherwise paints
+     over the first characters of the XP total */
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -114,12 +123,17 @@
 }
 
 @media (max-width: 480px) {
+  .textCol {
+    gap: 4px;
+  }
+
   .xp {
-    font-size: 1.35rem;
+    font-size: 1.1rem;
   }
 
   .name {
-    font-size: 0.6rem;
-    padding: 3px 8px;
+    font-size: 0.54rem;
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
   }
 }

@@ -10,7 +10,9 @@
   display: flex;
   justify-content: space-around;
   align-items: stretch;
-  background: var(--surface-2);
+  background:
+    radial-gradient(320px 120px at 50% 0%, rgba(111, 155, 255, 0.16), transparent 70%),
+    linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
   border: 1px solid var(--border-strong);
   border-radius: 28px;
   box-shadow: var(--shadow-card);

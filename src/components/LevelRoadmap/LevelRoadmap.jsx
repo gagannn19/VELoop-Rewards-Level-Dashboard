@@ -18,7 +18,7 @@ function tierFor(levelNumber) {
   if (levelNumber <= 2) return { color: "#c98a52", soft: "rgba(201, 138, 82, 0.35)" };
   if (levelNumber <= 4) return { color: "var(--silver)", soft: "rgba(199, 204, 214, 0.32)" };
   if (levelNumber <= 6) return { color: "var(--gold-strong)", soft: "rgba(217, 161, 60, 0.4)" };
-  return { color: "var(--soft-blue)", soft: "rgba(91, 141, 239, 0.35)" };
+  return { color: "var(--soft-blue)", soft: "rgba(111, 155, 255, 0.4)" };
 }
 
 function LevelRoadmap({ roadmap, currentLevel }) {

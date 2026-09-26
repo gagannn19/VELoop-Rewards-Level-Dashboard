@@ -1,7 +1,7 @@
 import { Coins, Gem, RotateCw, Sparkles } from "lucide-react";
 import styles from "./LevelRewardCard.module.css";
 
-const ICONS = {
+export const REWARD_ICONS = {
   VEs: Coins,
   Gems: Gem,
   Spins: RotateCw,
@@ -13,7 +13,7 @@ const ICONS = {
  */
 function LevelRewardCard({ reward, size = "md", locked = false }) {
   if (!reward) return null;
-  const Icon = ICONS[reward.type] || Sparkles;
+  const Icon = REWARD_ICONS[reward.type] || Sparkles;
 
   return (
     <span

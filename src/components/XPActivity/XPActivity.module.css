@@ -1,5 +1,5 @@
 .card {
-  background: var(--surface);
+  background: var(--gradient-surface);
   border: 1px solid rgba(238, 193, 100, 0.22);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
@@ -34,7 +34,7 @@
 }
 
 .row:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--tile-bg);
 }
 
 .row:last-child {
@@ -67,7 +67,7 @@
 }
 
 .iconWrap.blue {
-  background: rgba(91, 141, 239, 0.15);
+  background: rgba(111, 155, 255, 0.16);
   color: var(--soft-blue);
 }
 
@@ -153,7 +153,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--tile-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 10px 12px;
