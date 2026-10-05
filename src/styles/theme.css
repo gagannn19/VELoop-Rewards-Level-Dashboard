@@ -180,31 +180,100 @@ h6 {
   letter-spacing: 0.015em;
 }
 
-.premiumCard h2::after {
+/* the underline is a "blade": clipped to a hexagon so both ends taper to a
+   sharp point, brightest at the center and fading toward the tips. It
+   grows out from the center, and ::before lays a soft glow under it
+   (clip-path would cut off a box-shadow on the blade itself). */
+.premiumCard h2::after,
+.premiumCard h2::before {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 100%;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--gold-soft), var(--gold-strong));
+  left: -4px;
+  right: -4px;
+  pointer-events: none;
   transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s var(--ease-smooth);
+  transform-origin: center;
+  transition:
+    transform 0.45s var(--ease-smooth),
+    opacity 0.45s var(--ease-smooth);
 }
 
-.premiumCard:hover h2::after {
+.premiumCard h2::after {
+  bottom: -7px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(217, 161, 60, 0) 0%,
+    var(--gold-strong) 18%,
+    var(--gold-soft) 50%,
+    var(--gold-strong) 82%,
+    rgba(217, 161, 60, 0) 100%
+  );
+  clip-path: polygon(0 50%, 10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%);
+}
+
+.premiumCard h2::before {
+  bottom: -10px;
+  height: 9px;
+  opacity: 0;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(238, 193, 100, 0.55), transparent 100%);
+  filter: blur(4px);
+}
+
+.premiumCard:hover h2::after,
+.premiumCard:hover h2::before {
   transform: scaleX(1);
+  opacity: 1;
 }
 
 /* On touch devices there's no hover, so the underline instead sweeps in
    when the card scrolls through the vertical center of the screen — see
    useCenterHighlight, which toggles this class via IntersectionObserver. */
 @media (hover: none) {
-  .premiumCard.inViewCenter h2::after {
+  .premiumCard.inViewCenter h2::after,
+  .premiumCard.inViewCenter h2::before {
     transform: scaleX(1);
+    opacity: 1;
   }
+}
+
+/* ---- shared card hover: a gold hairline along the top edge that widens
+   and brightens, plus a lifted border/glow. No transform on the card
+   itself — PlayAndEarn hosts a position: fixed fullscreen game, which a
+   transformed ancestor would trap inside the card. ---- */
+.cardHover {
+  transition:
+    border-color 0.3s var(--ease-smooth),
+    box-shadow 0.3s var(--ease-smooth);
+}
+
+.cardHover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  z-index: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  opacity: 0.35;
+  pointer-events: none;
+  transition: left 0.4s var(--ease-smooth), right 0.4s var(--ease-smooth), opacity 0.4s ease, height 0.4s ease;
+}
+
+.cardHover:hover {
+  border-color: rgba(238, 193, 100, 0.45);
+  box-shadow:
+    0 18px 44px rgba(2, 6, 20, 0.7),
+    0 0 30px rgba(77, 111, 220, 0.22),
+    inset 0 1px 0 rgba(255, 227, 163, 0.12);
+}
+
+.cardHover:hover::before {
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  opacity: 1;
 }
 
 /* ---- subtle currentColor fill under every lucide outline icon, so accent

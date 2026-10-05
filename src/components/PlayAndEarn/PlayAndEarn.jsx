@@ -3,7 +3,7 @@ import styles from "./PlayAndEarn.module.css";
 
 function PlayAndEarn({ onReward, onBack, progress, bestScore }) {
   return (
-    <section className={`${styles.card} premiumCard`}>
+    <section className={`${styles.card} premiumCard cardHover`}>
       <GameContainer onReward={onReward} onBack={onBack} progress={progress} bestScore={bestScore} />
     </section>
   );

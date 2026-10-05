@@ -41,13 +41,27 @@
   padding: 13px 14px;
   color: var(--text-primary);
   cursor: pointer;
-  transition: transform 0.15s var(--ease-smooth), border-color 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.25s var(--ease-spring),
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .row:hover:not(:disabled) {
   transform: translateY(-2px);
   border-color: rgba(238, 193, 100, 0.4);
   background: rgba(238, 193, 100, 0.05);
+  box-shadow: 0 8px 22px rgba(2, 6, 20, 0.5);
+}
+
+.row:hover:not(:disabled) .iconWrap {
+  transform: scale(1.08);
+}
+
+.row:hover:not(:disabled) .chevron {
+  transform: translateX(4px);
+  color: var(--gold);
 }
 
 .row:active:not(:disabled) {
@@ -60,6 +74,7 @@
 }
 
 .iconWrap {
+  transition: transform 0.25s var(--ease-spring);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,6 +156,7 @@
 
 .chevron {
   color: var(--text-muted);
+  transition: transform 0.25s var(--ease-smooth), color 0.2s ease;
 }
 
 .soonTag {

@@ -30,7 +30,7 @@ function LevelHero({ level, levelName, currentXP, requiredXP, nextLevel, boost, 
       </div>
 
       {boost && (
-        <div className={`${styles.boostCard} premiumCard`}>
+        <div className={`${styles.boostCard} premiumCard cardHover`}>
           <TodaysBoost {...boost} />
         </div>
       )}

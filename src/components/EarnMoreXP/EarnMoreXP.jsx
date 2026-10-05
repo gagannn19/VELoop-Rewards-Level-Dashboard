@@ -36,7 +36,7 @@ const ACCENTS = {
 
 function EarnMoreXP({ features, onQuickEarn }) {
   return (
-    <section className={`${styles.card} premiumCard`}>
+    <section className={`${styles.card} premiumCard cardHover`}>
       <div className={styles.headerRow}>
         <h2 className={styles.title}>Earn More XP & Rewards</h2>
         <p className={styles.subtitle}>

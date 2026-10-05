@@ -33,7 +33,7 @@ function getActivityVisual(label = "") {
 function XPActivity({ activity }) {
   if (!activity || activity.length === 0) {
     return (
-      <section className={`${styles.card} premiumCard`}>
+      <section className={`${styles.card} premiumCard cardHover`}>
         <h2 className={styles.title}>Recent Activity</h2>
         <div className={styles.empty}>
           <Zap size={22} />
@@ -48,7 +48,7 @@ function XPActivity({ activity }) {
   const todaysVEs = todaysEntries.reduce((sum, item) => sum + (item.ves || 0), 0);
 
   return (
-    <section className={`${styles.card} premiumCard`}>
+    <section className={`${styles.card} premiumCard cardHover`}>
       <h2 className={styles.title}>Recent Activity</h2>
       <ul className={styles.list}>
         {activity.map((item) => {
